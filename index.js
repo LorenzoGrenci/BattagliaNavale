@@ -17,7 +17,7 @@ app.use(
 
 app.use(
   "/",
-  express.static(path.join(__dirname, "public.pagina_principale.html")),
+  express.static(path.join(__dirname, "pagina_principale.html")),
 );
 
 /*const checkLogin = (user, pass) => {
