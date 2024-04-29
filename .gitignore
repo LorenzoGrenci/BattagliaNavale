@@ -1,2 +1,4 @@
 conf.js
 ca.pem
+node_modules
+package-lock.json
