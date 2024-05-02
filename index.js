@@ -20,7 +20,7 @@ app.use(
   express.static(path.join(__dirname, "pagina_principale.html")),
 );
 
-/*const checkLogin = (user, pass) => {
+const checkLogin = (user, pass) => {
   const template = `
   SELECT * FROM Admin
   WHERE username = '%username' 
@@ -46,7 +46,7 @@ app.post("/login", (req, res) => {
     }
   });
 });
-*/
+
 
 const server = http.createServer(app);
 server.listen(80, () => {
