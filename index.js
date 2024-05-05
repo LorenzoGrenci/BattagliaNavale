@@ -33,6 +33,7 @@ const executeQuery = (sql) => {
   });
 };
 
+//Login
 const checkLogin = (user, pass) => {
   const template = `
   SELECT * FROM Utenti
@@ -60,17 +61,34 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/registrazione", (req, res)=> {
+//registrazione
+const checkReg = (user, pass) => {
+  const template = `
+  INSERT INTO Utenti (username, password)
+  VALUES (%useername, &password);
+  `;
+  const sql = template.replace("%username", user).replace("%password", pass);
+  console.log(sql);
+  return executeQuery(sql);
+};
+
+app.post("/registrazione", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   console.log(username, password);
-  const template = `
-  SELECT * FROM Utenti
-  WHERE username = '%username' 
-  AND password = '%password'
-  `;
-}) 
+  checkReg(username, password).then((result) => {
+    console.log(result);
+    if (result.length > 0) {
+      res.json({ result: "Ok" });
+    } else {
+      //errore registrazione
+      res.status(401); //errore 401
+      res.json({ result: "Error" });
+    }
+  });
+});
 
+//websocket
 app.post("/new_c", (req, res) => {
   let username = req.body.username;
   let date = new Date().toLocaleString();
@@ -88,7 +106,7 @@ app.post("/new_m", (req, res) => {
   res.send("ok");
 });
 
-
+//server
 const server = http.createServer(app);
 server.listen(80, () => {
   console.log("Server running");
