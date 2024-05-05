@@ -7,6 +7,7 @@ const mysql = require("mysql2");
 const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
+const io = new Server(server);
 
 app.use(bodyParser.json());
 app.use(
@@ -34,7 +35,7 @@ const executeQuery = (sql) => {
 
 const checkLogin = (user, pass) => {
   const template = `
-  SELECT * FROM Admin
+  SELECT * FROM Utenti
   WHERE username = '%username' 
   AND password = '%password'
   `;
@@ -59,7 +60,17 @@ app.post("/login", (req, res) => {
   });
 });
 
-const io = new Server(server);
+app.post("/registrazione", (req, res)=> {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username, password);
+  const template = `
+  SELECT * FROM Utenti
+  WHERE username = '%username' 
+  AND password = '%password'
+  `;
+}) 
+
 app.post("/new_c", (req, res) => {
   let username = req.body.username;
   let date = new Date().toLocaleString();
