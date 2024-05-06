@@ -88,33 +88,6 @@ app.post("/registrazione", (req, res) => {
   });
 });
 
-//nave colpita
-const checkCoord = (x, y, disp) => {
-  const template = `
-  SELECT * FROM %disposuzione
-  WHERE coordinata_x = '%coord_x' 
-  AND coordinata_y = '%coord_y'
-  `;
-  const sql = template.replace("%coord_x", x).replace("%coord_y", y).replace("%disposizione", disp);
-  console.log(sql);
-  return executeQuery(sql);
-};
-
-app.post("/attacco", (req, res) => {
-  const coord_x = req.body.coord_x;
-  const coord_y = req.body.coord_y;
-  const disp = req.body.disp;
-  console.log(coord_x, coord_y, disp);
-  checkCoord(coord_x, coord_y).then((result) => {
-    console.log(result);
-    if (res.json==True) {
-      console.log("nave colpita");
-    } else {
-      console.log("nave non colpita");
-    }
-  });
-});
-
 //websocket
 app.post("/new_c", (req, res) => {
   let username = req.body.username;
