@@ -65,7 +65,7 @@ app.post("/login", (req, res) => {
 const checkReg = (user, pass) => {
   const template = `
   INSERT INTO Utenti (username, password)
-  VALUES (%useername, &password);
+  VALUES (%username, %password);
   `;
   const sql = template.replace("%username", user).replace("%password", pass);
   console.log(sql);
@@ -84,6 +84,33 @@ app.post("/registrazione", (req, res) => {
       //errore registrazione
       res.status(401); //errore 401
       res.json({ result: "Error" });
+    }
+  });
+});
+
+//nave colpita
+const checkCoord = (x, y, disp) => {
+  const template = `
+  SELECT * FROM %disposuzione
+  WHERE coordinata_x = '%coord_x' 
+  AND coordinata_y = '%coord_y'
+  `;
+  const sql = template.replace("%coord_x", x).replace("%coord_y", y).replace("%disposizione", disp);
+  console.log(sql);
+  return executeQuery(sql);
+};
+
+app.post("/attacco", (req, res) => {
+  const coord_x = req.body.coord_x;
+  const coord_y = req.body.coord_y;
+  const disp = req.body.disp;
+  console.log(coord_x, coord_y, disp);
+  checkCoord(coord_x, coord_y).then((result) => {
+    console.log(result);
+    if (res.json==True) {
+      console.log("nave colpita");
+    } else {
+      console.log("nave non colpita");
     }
   });
 });
@@ -111,4 +138,3 @@ const server = http.createServer(app);
 server.listen(80, () => {
   console.log("Server running");
 });
-//ciao juj
