@@ -7,7 +7,6 @@ const mysql = require("mysql2");
 const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
-const io = new Server(server);
 
 app.use(bodyParser.json());
 app.use(
@@ -18,7 +17,7 @@ app.use(
 
 app.use(
   "/",
-  express.static(path.join(__dirname, "pagina_principale.html")),
+  express.static(path.join(__dirname, "public")),
 );
 
 const executeQuery = (sql) => {
@@ -89,22 +88,6 @@ app.post("/registrazione", (req, res) => {
 });
 
 //websocket
-app.post("/new_c", (req, res) => {
-  let username = req.body.username;
-  let date = new Date().toLocaleString();
-  console.log("socket connected: " + req.body.username);
-  io.emit("chat", date + ".. " + "NUOVO UTENTE: " + req.body.username);
-  res.send("ok");
-});
-
-app.post("/new_m", (req, res) => {
-  let message = req.body.message;
-  let user = req.body.username;
-  let date = new Date().toLocaleString();
-  console.log("message: " + message);
-  io.emit("chat", date + ".. " + user + ".. " + message);
-  res.send("ok");
-});
 
 //server
 const server = http.createServer(app);
