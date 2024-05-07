@@ -7,18 +7,20 @@ body{
     align-items: center;
     align-content: space-around;
     flex-direction: column-reverse;
+    padding-top: 50px;
 }
 #div_registrazione{
     display: flex;
     align-items: center;
     align-content: space-around;
     flex-direction: column-reverse;
+    padding-top: 50px;
 }
 #titoli{
     display: flex;
     align-items: center;
-    flex-direction: column;
-    background-color: #000080;
+    flex-direction: row;
+    background-color: #19a2e7;
     margin-bottom: 20px;
 }
 #form-group{
@@ -29,14 +31,19 @@ body{
 }
 
 #sfondo{
-    background-color: #000080;
+    background-color: #19a2e7;
+    max-height: 500px;
 }
 #header{
     display: flex;
     justify-content: space-between;
     color: #FFFACD;
 }
-
+#titolo_home{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 #btn-group{
     display: flex;
     align-items: center;
@@ -50,9 +57,13 @@ body{
 }
 #logo_home{
     padding-left: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+    
+}
+#logo_img{
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 30px;
+    padding: 10px;
 }
 #tabella_giocatori{
     padding-top: 100px;
