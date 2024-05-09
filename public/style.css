@@ -73,3 +73,7 @@ body{
 #tab_giocatori{
     background-color: #FFE4C4;
 }
+#a_bottone_login{
+    text-decoration: none;
+    color: white;
+}
