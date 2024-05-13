@@ -24,6 +24,25 @@ const secondaGriglia=()=>{
         }
     }
 }
+const Fcanvas1 =(xx,yy)=>{
+    if (0<xx<20 && 0<yy<600) {
+        console.log("10")
+    }
+    else{
+        console.log("20")
+    }
+}
 
+const Fcanvas2 =(xx,yy)=>{
+    if (0<xx<20 && 0<yy<600) {
+        console.log("10")
+    }
+    else{
+        console.log("20")
+    }
+}
+
+canvas1.addEventListener("click", (event)=>{Fcanvas1(event.x,event.y)});
+canvas2.addEventListener("click", (event)=>{Fcanvas2(event.x,event.y)});
 primaGriglia();
 secondaGriglia();
