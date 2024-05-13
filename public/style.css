@@ -36,7 +36,7 @@ body{
 }
 #header{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     color: #FFFACD;
 }
 #titolo_home{
