@@ -7,6 +7,7 @@ const mysql = require("mysql2");
 const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
 
 app.use(bodyParser.json());
 app.use(
@@ -98,6 +99,27 @@ app.post("/registrazione", (req, res) => {
 });
 
 //websocket
+const io = new Server(server);
+app.post("/new_c", (req, res) => {
+  let username = req.body.username;
+  let date = new Date().toLocaleString();
+  console.log("socket connected: " + req.body.username);
+  io.emit("chat", date + ".. " + "NUOVO UTENTE: " + req.body.username);
+  res.send("ok");
+});
+
+app.post("/new_p", (req, res) => {
+  let message = req.body.message;
+  let user = req.body.username;
+  let date = new Date().toLocaleString();
+  console.log("message: " + message);
+  io.emit("chat", date + ".. " + user + ".. " + message);
+  res.send("ok");
+});
+
+server.listen(conf.port, () => {
+  console.log("server running on port: " + conf.port);
+});
 
 //server
 const server = http.createServer(app);
