@@ -64,7 +64,7 @@ app.post("/login", (req, res) => {
 const checkReg = (user, pass) => {
   const template = `
   INSERT INTO Utenti (username, password)
-  VALUES (%username, %password);
+  VALUES ('%username', '%password');
   `;
   const sql = template.replace("%username", user).replace("%password", pass);
   console.log(sql);
@@ -76,14 +76,24 @@ app.post("/registrazione", (req, res) => {
   const password = req.body.password;
   console.log(username, password);
   checkReg(username, password).then((result) => {
-    console.log(result);
+    checkLogin(username, password).then((result) => {
+      console.log(result);
+      if (result.length > 0) {
+        res.json({ result: "Ok" });
+      } else {
+        //login non valida
+        res.status(401); //errore 401
+        res.json({ result: "Unauthorized" });
+      }
+    });
+    /*console.log(result);
     if (result.length > 0) {
       res.json({ result: "Ok" });
     } else {
       //errore registrazione
       res.status(401); //errore 401
       res.json({ result: "Error" });
-    }
+    }*/
   });
 });
 
