@@ -5,22 +5,17 @@ let div_privato = document.getElementById("stato_accesso");
 
 const checkLog = async (username, password) => {
   console.log(username, password);
-  try {
-    const funz = await fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    });
-    const result = await funz.json();
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+  const funz = await fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    })});
+  const result = await funz.json();
+  return result;
 };
   
 button_login.onclick = () => {
