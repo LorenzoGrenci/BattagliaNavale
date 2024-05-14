@@ -74,6 +74,18 @@ const secondaGriglia = () => {
 primaGriglia();
 secondaGriglia();
 
+const mio=[]
+for(let i=0 ; i<10 ; i++){
+    mio.push([])
+}
+let h = Math.floor(Math.random() * 10)
+let r = Math.floor(Math.random() * 10)
+for (let p1 = 0; p1 < h ; p1++){
+    for (let p2 = 0; p2 < r ; p2++)
+        mio.push(3)
+}
+console.log(mio)
+const avv = []
 
 /*const Fcanvas1 =(xx,yy)=>{
     if (0<xx && xx<20 && 0<yy && yy<600) {
