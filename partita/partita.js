@@ -70,41 +70,69 @@ const secondaGriglia = () => {
     }
 };
 
-// Aggiungi le griglie ai canvas
+const controlloGriglia=()=>{
+    const mio = [];
+    for (let i = 0; i < 10; i++) {
+        mio.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+    let x1 = Math.floor(Math.random() * 10);
+    let y1 = Math.floor(Math.random() * 10);
+    console.log(x1, y1);
+    mio[y1][x1] = 1;
+    possibilità=[]
+
+    if (y1 + 5 < 10) {
+        console.log(x1, y1 + 5, "basso");
+        possibilità.push("basso")
+    }    
+    if (y1 - 5 >= 0) {
+        console.log(x1, y1 - 5, "alto");
+        possibilità.push("alto")
+    }
+    if (x1 + 5 < 10) {
+        console.log(x1 + 5, y1, "destra");
+        possibilità.push("destra")
+    }
+    if (x1 - 5 >= 0) {
+        console.log(x1 - 5, y1, "sinistra");
+        possibilità.push("sinistra")
+    }
+    aggiuntaNave(mio, x1, y1)
+}
+const aggiuntaNave=(mio, x1, y1)=>{
+    n=5
+    let index = (Math.round((Math.random()*1)));
+    console.log("valore", possibilità[index])
+    if (possibilità[index]==="basso"){
+        for (l=0 ; l<=n ; l++){
+            mio[y1 + l][x1] = 1;
+        }
+        console.log("verso il basso");
+    }
+    else if (possibilità[index]==="alto"){
+        for (l=0 ; l<=n ; l++){
+            mio[y1 - l][x1] = 1;
+        }
+        console.log("verso l'alto");
+    }
+    else if (possibilità[index]==="destra"){
+        for (l=0 ; l<=n ; l++){
+            mio[y1][x1 + l] = 1;
+        }
+        console.log("verso destra");
+    }
+    else if (possibilità[index]==="sinistra"){
+        for (l=0 ; l<=n ; l++){
+            mio[y1][x1 - l] = 1;
+        }
+        console.log("verso sinistra");
+    }
+    else{
+        console.log("impossibile")
+    }
+    console.log(mio)
+}
+
 primaGriglia();
 secondaGriglia();
-
-const mio=[]
-for(let i=0 ; i<10 ; i++){
-    mio.push([])
-}
-let h = Math.floor(Math.random() * 10)
-let r = Math.floor(Math.random() * 10)
-for (let p1 = 0; p1 < h ; p1++){
-    for (let p2 = 0; p2 < r ; p2++)
-        mio.push(3)
-}
-console.log(mio)
-const avv = []
-
-/*const Fcanvas1 =(xx,yy)=>{
-    if (0<xx && xx<20 && 0<yy && yy<600) {
-        console.log("10")
-    }
-    else{
-        console.log("20")
-    }
-}
-
-const Fcanvas2 =(xx,yy)=>{
-    if (0<xx && xx<20 && 0<yy && yy<600) {
-        console.log("10")
-    }
-    else{
-        console.log("20")
-    }
-}
-
-canvas1.addEventListener("click", (event)=>{Fcanvas1(event.x,event.y)});
-canvas2.addEventListener("click", (event)=>{Fcanvas2(event.x,event.y)});
-*/
+controlloGriglia();
