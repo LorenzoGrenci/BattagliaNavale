@@ -6,60 +6,53 @@ const bw = 600;
 const bh = 600;
 const cellSize = 60;
 
-const primaGriglia = () => {
+//Funzione per disegnare la prima griglia
+const primaGriglia = (mio) => {
     ctx1.lineWidth = 5;
     ctx1.strokeStyle = "black";
     for (let x = 0; x < bw; x += cellSize) {
         for (let y = 0; y < bh; y += cellSize) {
-            // Disegna la cella
             ctx1.strokeRect(x + 10, y + 10, cellSize, cellSize);
-
-            // Aggiunge un gestore di eventi click alla cella
-            canvas1.addEventListener("click", (event) => {
-                const rect = canvas1.getBoundingClientRect();
-                const clickX = event.clientX - rect.left;
-                const clickY = event.clientY - rect.top;
-                if (clickX >= x && clickX <= x + cellSize && clickY >= y && clickY <= y + cellSize) {
-                    xx=x / cellSize
-                    yy= y / cellSize
-                    console.log("Cliccato sulla cella: ", xx, yy);
-                    if ((xx === 9 && yy === 9) || (xx === 3 && yy === 2)) {
-                        // Disegna un cerchio
-                        ctx1.beginPath();
-                        ctx1.arc(x + cellSize / 2+10, y + cellSize/2 +10, cellSize/2, 0, 2 * Math.PI);
-                        ctx1.fillStyle = "red";
-                        ctx1.fill();
-                        ctx1.closePath();
-                    } else if ((xx === 8 && yy === 7) || (xx === 0 && yy === 0)) {
-                        // Disegna un quadrato
-                        ctx1.fillStyle = "blue";
-                        ctx1.fillRect(x + cellSize/ 2-20, y + cellSize/ 2-20, cellSize, cellSize);
-                    }
-                }
-            });
+        }
+    }
+    for (let y = 0; y < bh; y++) {
+        for (let x = 0; x < bw; x++) {
+            if (mio[y][x] === 1) { 
+                const cellX = x * cellSize + 10;
+                const cellY = y * cellSize + 10;
+                ctx1.beginPath();
+                ctx1.arc(cellX + cellSize / 2, cellY + cellSize / 2, cellSize / 4, 0, Math.PI * 2);
+                ctx1.fillStyle = "red";
+                ctx1.fill();
+                ctx1.closePath();
+            }
         }
     }
 };
 
 // Funzione per disegnare la seconda griglia
-const secondaGriglia = () => {
+const secondaGriglia = (avv) => {
+    console.log("lista griglia", avv)
     ctx2.lineWidth = 5;
     ctx2.strokeStyle = "black";
     for (let x = 0; x < bw; x += cellSize) {
         for (let y = 0; y < bh; y += cellSize) {
-            // Disegna la cella
             ctx2.strokeRect(x + 10, y + 10, cellSize, cellSize);
-
-            // Aggiungi un gestore di eventi click alla cella
             canvas2.addEventListener("click", (event) => {
                 const rect = canvas2.getBoundingClientRect();
                 const clickX = event.clientX - rect.left;
                 const clickY = event.clientY - rect.top;
                 if (clickX >= x && clickX <= x + cellSize && clickY >= y && clickY <= y + cellSize) {
-                    xx=x / cellSize
-                    yy= y / cellSize
+                    const xx = Math.floor(x / cellSize);
+                    const yy = Math.floor(y / cellSize);
                     console.log("Cliccato sulla cella: ", xx, yy);
-                    // Esegui l'azione desiderata per il click sulla cella
+                    if (avv[yy] && avv[yy][xx] === 1) {
+                        console.log("nave colpita");
+                        alert("nave colpita")
+                    } else {
+                        console.log("nave mancata");
+                        alert("nave mancata")
+                    }
                 }
             });
         }
@@ -193,11 +186,175 @@ const creazioneGrigliaNavi = (mio, n) => {
         } else {
             console.log("disposizione completata");
             console.log(mio, n_navi);
-            return; 
+            primaGriglia(mio);
         }
     }
 }
 
-primaGriglia();
-secondaGriglia();
 creazioneGrigliaNavi(mio, n);
+/*
+function generaPunto(matrix) {
+    let isValid = false;
+    let x, y;
+    while (!isValid) {
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+      isValid = controllaintorni(matrix, x, y);
+    }
+    matrix[x][y] = 1;
+    return matrix;
+  }
+  
+function controllaintorni(matrix, x, y) {
+    for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+        if (x + i >= 0 && x + i < 10 && y + j >= 0 && y + j < 10) {
+        if (matrix[x + i][y + j] === 1) {
+            return false;
+        }
+        }
+    }
+    }
+    return true;
+}
+
+// Creazione di una matrice 10x10 con tutti gli elementi impostati su zero
+let matrix = Array.from({ length: 10 }, () => Array(10).fill(0));
+
+// Impostazione di un punto casuale a uno
+matrix[Math.floor(Math.random() * 10)][Math.floor(Math.random() * 10)] = 1;
+
+// Generazione di un nuovo punto
+matrix = generaPunto(matrix);
+
+console.log(matrix);*/
+
+const avv = [];
+for (let i = 0; i < 10; i++) {
+    avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+}
+const controlloGrigliaAvv = (avv, n) => {
+    let x1, y1;
+    do {
+        x1 = Math.floor(Math.random() * 10);
+        y1 = Math.floor(Math.random() * 10);
+    } while (
+        //Controllo se posso scegliere quel punto senza essere vicino ad altre navi
+        avv[y1][x1] === 1 ||  
+        avv[y1+1][x1] === 1 || avv[y1+1][x1] === undefined || 
+        avv[y1-1][x1] === 1 || avv[y1-1][x1] === undefined || 
+        avv[y1][x1+1] === 1 || avv[y1][x1+1] === undefined || 
+        avv[y1][x1-1] === 1 || avv[y1][x1-1] === undefined ||
+        avv[y1+1][x1+1] === 1 || avv[y1+1][x1+1] === undefined ||
+        avv[y1+1][x1-1] === 1 || avv[y1+1][x1-1] === undefined ||
+        avv[y1-1][x1+1] === 1 || avv[y1-1][x1+1] === undefined ||
+        avv[y1-1][x1-1] === 1 || avv[y1-1][x1-1] === undefined 
+        )
+
+    //Controllo dov'è possibile posizionare le navi
+    let possibilità = [];
+    console.log("valori x e y", x1, y1)
+    if (y1 + n < 10) {
+        let canPlace = true;
+        for (let j = 1; j <= n+1; j++) {
+            if (avv[y1 + j]=== undefined || avv[y1 + j][x1] === 1 || avv[y1 + j][x1] === undefined || avv[y1+j][x1+1] === 1 || avv[y1+j][x1-1] === 1) {
+                canPlace = false;
+                break;
+            }
+        }
+        if (canPlace) {
+            console.log("è possibile posizionare la nave verso il basso");
+            possibilità.push("basso");
+        }
+    }    
+    if (y1 - n >= 0) {
+        let canPlace = true;
+        for (let j = 1; j <= n+1; j++) {
+            if (avv[y1 - j]=== undefined || avv[y1 - j][x1] === 1 || avv[y1 - j][x1] === undefined || avv[y1-j][x1+1] === 1 || avv[y1-j][x1-1] === 1) {
+                canPlace = false;
+                break;
+            }
+        }
+        if (canPlace) {
+            console.log("è possibile posizionare la nave verso l'alto");
+            possibilità.push("alto");
+        }
+    }
+    if (x1 + n < 10) {
+        let canPlace = true;
+        for (let j = 1; j <= n+1; j++) {
+            if (avv[x1 + j] === undefined || avv[y1][x1 + j] === 1 || avv[y1][x1 + j] === undefined || avv[y1+1][x1+j]===1 || avv[y1-1][x1+j]===1) {
+                canPlace = false;
+                break;
+            }
+        }
+        if (canPlace) {
+            console.log("è possibile posizionare la nave verso destra");
+            possibilità.push("destra");
+        }
+    }
+    if (x1 - n >= 0) {
+        let canPlace = true;
+        for (let j = 1; j <= n+1; j++) {
+            if (avv[x1 - j] === undefined || avv[y1][x1 - j] === 1 || avv[y1][x1 - j] === undefined || avv[y1+1][x1-j]===1 || avv[y1-1][x1-j]===1) {
+                canPlace = false;
+                break;
+            }
+        }
+        if (canPlace) {
+            console.log("è possibile posizionare la nave verso sinistra");
+            possibilità.push("sinistra");
+        }
+    }else{
+        console.log("Impossibile posizionare la nave in questa zona");
+    }
+
+    let index = Math.floor(Math.random() * possibilità.length);
+    console.log("valore", possibilità[index]);
+
+    //Posizionamento navi
+    if (possibilità[index] === "basso") {
+        for (let l = 0; l <= n; l++) {
+            avv[y1 + l][x1] = 1;
+        }
+        console.log("verso il basso");
+    } else if (possibilità[index] === "alto") {
+        for (let l = 0; l <= n; l++) {
+            avv[y1 - l][x1] = 1;
+        }
+        console.log("verso l'alto");
+    } else if (possibilità[index] === "destra") {
+        for (let l = 0; l <= n; l++) {
+            avv[y1][x1 + l] = 1;
+        }
+        console.log("verso destra");
+    } else if (possibilità[index] === "sinistra") {
+        for (let l = 0; l <= n; l++) {
+            avv[y1][x1 - l] = 1;
+        }
+        console.log("verso sinistra");
+    }
+}
+
+const creazioneGrigliaNaviAvv = (avv, n) => {
+    let nTemp = n;
+    for (let i = 0; i < 5; i++) {
+        if (nTemp !== 1) {
+            if (nTemp === 2) {
+                controlloGrigliaAvv(avv, nTemp);
+                n_navi++
+                controlloGrigliaAvv(avv, nTemp);
+                n_navi++
+                nTemp --;
+            } else {
+                controlloGrigliaAvv(avv, nTemp);
+                n_navi++
+                nTemp--;
+            }
+        } else {
+            console.log("disposizione completata");
+            console.log(avv, n_navi);
+            secondaGriglia(avv);
+        }
+    }
+}
