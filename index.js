@@ -7,7 +7,7 @@ const mysql = require("mysql2");
 const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
-const { Server } = require("socket.io");
+//const { Server } = require("socket.io");
 
 app.use(bodyParser.json());
 app.use(
