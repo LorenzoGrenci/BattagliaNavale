@@ -99,8 +99,7 @@ app.post("/registrazione", (req, res) => {
 });
 
 //websocket
-/*
-const io = new Server(server);
+/*const io = new Server(server);
 app.post("/new_c", (req, res) => {
   let username = req.body.username;
   let date = new Date().toLocaleString();
