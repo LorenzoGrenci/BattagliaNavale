@@ -99,7 +99,7 @@ app.post("/registrazione", (req, res) => {
 });
 
 //websocket
-const io = new Server(server);
+/*const io = new Server(server);
 app.post("/new_c", (req, res) => {
   let username = req.body.username;
   let date = new Date().toLocaleString();
@@ -119,7 +119,7 @@ app.post("/new_p", (req, res) => {
 
 server.listen(conf.port, () => {
   console.log("server running on port: " + conf.port);
-});
+});*/
 
 //server
 const server = http.createServer(app);
