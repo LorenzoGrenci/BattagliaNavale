@@ -67,21 +67,66 @@ for (let i = 0; i < 10; i++) {
 }
 const controlloGriglia = (mio, n) => {
     let x1, y1;
+    let condizione=0;
     do {
+        condizione=0;
         x1 = Math.floor(Math.random() * 10);
         y1 = Math.floor(Math.random() * 10);
+        console.log(x1,y1)
+        if (x1===9){
+            if (x1===9 && y1===0){
+                condizione=mio[y1+1][x1-1] && !mio[y1+1][x1-1] &&
+                mio[y1+1][x1] && !mio[y1+1][x1] &&
+                mio[y1][x1-1] && !mio[y1][x1-1]
+            }else if (x1===9 && y1===9){
+                condizione=mio[y1][x1-1] && !mio[y1][x1-1] &&
+                mio[y1-1][x1] && !mio[y1-1][x1] &&
+                mio[y1-1][x1-1] && !mio[y1-1][x1-1]
+            }
+        }else{
+            condizione=mio[y1-1][x1] && !mio[y1-1][x1] &&
+            mio[y1-1][x1-1] && !mio[y1-1][x1-1] &&
+            mio[y1][x1-1] && !mio[y1][x1-1] &&
+            mio[y1+1][x1-1] && !mio[y1+1][x1-1] &&
+            mio[y1+1][x1] && !mio[y1+1][x1]
+        }
+        if (x1===0){
+            if (x1===0 && y1===0){
+                condizione=mio[y1][x1+1] && !mio[y1][x1+1] &&
+                mio[y1+1][x1+1] && !mio[y1+1][x1+1] &&
+                mio[y1+1][x1] && !mio[y1+1][x1] 
+            }else if(x1===0 && y1===9){
+                condizione=mio[y1][x1+1] && !mio[y1][x1+1] &&
+                mio[y1-1][x1+1] && !mio[y1-1][x1+1] &&
+                mio[y1-1][x1] && !mio[y1-1][x1] 
+            }
+        }else{
+            condizione=mio[y1-1][x1] && !mio[y1-1][x1] &&
+            mio[y1-1][x1+1] && !mio[y1-1][x1+1] &&
+            mio[y1][x1+1] && !mio[y1][x1+1] &&
+            mio[y1+1][x1+1] && !mio[y1+1][x1+1] &&
+            mio[y1+1][x1] && !mio[y1+1][x1]
+        }
+        if (y1===0 && x1!==0 && x1!==9){
+            condizione=mio[y1][x1+1] && !mio[y1][x1+1] &&
+            mio[y1+1][x1+1] && !mio[y1+1][x1+1] &&
+            mio[y1+1][x1] && !mio[y1+1][x1] &&
+            mio[y1+1][x1-1] && !mio[y1+1][x1-1] &&
+            mio[y1][x1-1] && !mio[y1][x1-1]
+        }
+        else if (y1===9 && x1!==0 && x1!==9){
+            condizione=mio[y1][x1+1] && !mio[y1][x1+1] &&
+            mio[y1-1][x1+1] && !mio[y1-1][x1+1] &&
+            mio[y1-1][x1] && !mio[y1-1][x1] &&
+            mio[y1-1][x1-1] && !mio[y1-1][x1-1] &&
+            mio[y1][x1-1] && !mio[y1][x1-1]
+        }
+
     } while (
         //Controllo se posso scegliere quel punto senza essere vicino ad altre navi
-        mio[y1][x1] === 1 ||  
-        mio[y1+1][x1] === 1 || mio[y1+1][x1] === undefined || 
-        mio[y1-1][x1] === 1 || mio[y1-1][x1] === undefined || 
-        mio[y1][x1+1] === 1 || mio[y1][x1+1] === undefined || 
-        mio[y1][x1-1] === 1 || mio[y1][x1-1] === undefined ||
-        mio[y1+1][x1+1] === 1 || mio[y1+1][x1+1] === undefined ||
-        mio[y1+1][x1-1] === 1 || mio[y1+1][x1-1] === undefined ||
-        mio[y1-1][x1+1] === 1 || mio[y1-1][x1+1] === undefined ||
-        mio[y1-1][x1-1] === 1 || mio[y1-1][x1-1] === undefined 
-        )
+        mio[y1][x1] &&
+        condizione
+        );
 
     //Controllo dov'è possibile posizionare le navi
     let possibilità = [];
@@ -235,21 +280,104 @@ for (let i = 0; i < 10; i++) {
 }
 const controlloGrigliaAvv = (avv, n) => {
     let x1, y1;
+    let condizione = "";
     do {
+        condizione = "";
         x1 = Math.floor(Math.random() * 10);
         y1 = Math.floor(Math.random() * 10);
+        console.log(x1, y1);
+        if (x1 === 9) {
+            if (x1 === 9 && y1 === 0) {
+                condizione =
+                    avv[y1 + 1][x1 - 1] &&
+                    !avv[y1 + 1][x1 - 1] &&
+                    avv[y1 + 1][x1] &&
+                    !avv[y1 + 1][x1] &&
+                    avv[y1][x1 - 1] &&
+                    !avv[y1][x1 - 1];
+            } else if (x1 === 9 && y1 === 9) {
+                condizione =
+                    avv[y1][x1 - 1] &&
+                    !avv[y1][x1 - 1] &&
+                    avv[y1 - 1][x1] &&
+                    !avv[y1 - 1][x1] &&
+                    avv[y1 - 1][x1 - 1] &&
+                    !avv[y1 - 1][x1 - 1];
+            }
+        } else {
+            condizione =
+                avv[y1 - 1][x1] &&
+                !avv[y1 - 1][x1] &&
+                avv[y1 - 1][x1 - 1] &&
+                !avv[y1 - 1][x1 - 1] &&
+                avv[y1][x1 - 1] &&
+                !avv[y1][x1 - 1] &&
+                avv[y1 + 1][x1 - 1] &&
+                !avv[y1 + 1][x1 - 1] &&
+                avv[y1 + 1][x1] &&
+                !avv[y1 + 1][x1];
+        }
+        if (x1 === 0) {
+            if (x1 === 0 && y1 === 0) {
+                condizione =
+                    avv[y1][x1 + 1] &&
+                    !avv[y1][x1 + 1] &&
+                    avv[y1 + 1][x1 + 1] &&
+                    !avv[y1 + 1][x1 + 1] &&
+                    avv[y1 + 1][x1] &&
+                    !avv[y1 + 1][x1];
+            } else if (x1 === 0 && y1 === 9) {
+                condizione =
+                    avv[y1][x1 + 1] &&
+                    !avv[y1][x1 + 1] &&
+                    avv[y1 - 1][x1 + 1] &&
+                    !avv[y1 - 1][x1 + 1] &&
+                    avv[y1 - 1][x1] &&
+                    !avv[y1 - 1][x1];
+            }
+        } else {
+            condizione =
+                avv[y1 - 1][x1] &&
+                !avv[y1 - 1][x1] &&
+                avv[y1 - 1][x1 + 1] &&
+                !avv[y1 - 1][x1 + 1] &&
+                avv[y1][x1 + 1] &&
+                !avv[y1][x1 + 1] &&
+                avv[y1 + 1][x1 + 1] &&
+                !avv[y1 + 1][x1 + 1] &&
+                avv[y1 + 1][x1] &&
+                !avv[y1 + 1][x1];
+        }
+        if (y1 === 0 && x1 !== 0 && x1 !== 9) {
+            condizione =
+                avv[y1][x1 + 1] &&
+                !avv[y1][x1 + 1] &&
+                avv[y1 + 1][x1 + 1] &&
+                !avv[y1 + 1][x1 + 1] &&
+                avv[y1 + 1][x1] &&
+                !avv[y1 + 1][x1] &&
+                avv[y1 + 1][x1 - 1] &&
+                !avv[y1 + 1][x1 - 1] &&
+                avv[y1][x1 - 1] &&
+                !avv[y1][x1 - 1];
+        } else if (y1 === 9 && x1 !== 0 && x1 !== 9) {
+            condizione =
+                avv[y1][x1 + 1] &&
+                !avv[y1][x1 + 1] &&
+                avv[y1 - 1][x1 + 1] &&
+                !avv[y1 - 1][x1 + 1] &&
+                avv[y1 - 1][x1] &&
+                !avv[y1 - 1][x1] &&
+                avv[y1 - 1][x1 - 1] &&
+                !avv[y1 - 1][x1 - 1] &&
+                avv[y1][x1 - 1] &&
+                !avv[y1][x1 - 1];
+        }
     } while (
         //Controllo se posso scegliere quel punto senza essere vicino ad altre navi
-        avv[y1][x1] === 1 ||  
-        avv[y1+1][x1] === 1 || avv[y1+1][x1] === undefined || 
-        avv[y1-1][x1] === 1 || avv[y1-1][x1] === undefined || 
-        avv[y1][x1+1] === 1 || avv[y1][x1+1] === undefined || 
-        avv[y1][x1-1] === 1 || avv[y1][x1-1] === undefined ||
-        avv[y1+1][x1+1] === 1 || avv[y1+1][x1+1] === undefined ||
-        avv[y1+1][x1-1] === 1 || avv[y1+1][x1-1] === undefined ||
-        avv[y1-1][x1+1] === 1 || avv[y1-1][x1+1] === undefined ||
-        avv[y1-1][x1-1] === 1 || avv[y1-1][x1-1] === undefined 
-        )
+        avv[y1][x1] &&
+        condizione
+    );
 
     //Controllo dov'è possibile posizionare le navi
     let possibilità = [];
