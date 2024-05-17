@@ -8,7 +8,6 @@ const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
 const socketio = require("socket.io");
-const PORT = process.env.PORT || 3000
 
 
 //server
@@ -41,6 +40,29 @@ const executeQuery = (sql) => {
     });
   });
 };
+
+//websocket
+const io = socketio(server);
+
+const connessioni = [null, null]
+io.on('connection', socket =>{
+  //console.log("Nuova connessione WS");
+  //trovare nuove connessioni
+  let indiceGiocatori = -1;
+  for (const i in connessioni) {
+    if(connessioni[i] === null){
+      indiceGiocatori = i
+      break
+    }
+  }
+
+  //ingorare la terza connessione
+  if (indiceGiocatori === -1) return
+  //dire ai giocatori che numero sono
+  socket.emit("giocatore-numero", indiceGiocatori);
+  console.log(`Giocatore ${indiceGiocatori} si è connesso`);
+
+});
 
 //Login
 const checkLogin = (user, pass) => {
@@ -107,12 +129,4 @@ app.post("/registrazione", (req, res) => {
   });
 });
 
-//websocket
-const io = socketio(server);
-
-server.listen(PORT, ()=> console.log(`Server running on port ${PORT}`));
-
-io.on('connection', socket =>{
-  console.log("Nuova connessione WS");
-});
 
