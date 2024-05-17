@@ -83,13 +83,13 @@ const generaPunto=(mio)=> {
 }
 
 const controllaPosizione=(mio, x1, y1)=>{
-    //Controllo dov'è possibile posizionare le navi
+    //Controllo dov'è possibile posizionare le navi  //mio[y1 + j]=== undefined || 
     let possibilità = [];
     console.log("valori x e y", x1, y1)
     if (y1 + n < 10) {
         let canPlace = true;
-        for (let j = 1; j <= n+1; j++) {
-            if (mio[y1 + j]=== undefined || mio[y1 + j][x1] === 1 || mio[y1 + j][x1] === undefined || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
+        for (let j = 0; j <= n; j++) {
+            if (mio[y1 + j][x1] === 1 || mio[y1 + j][x1] === undefined || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -98,11 +98,11 @@ const controllaPosizione=(mio, x1, y1)=>{
             console.log("è possibile posizionare la nave verso il basso");
             possibilità.push("basso");
         }
-    }    
-    else if (y1 - n >= 0) {
+    }
+    if (y1 - n >= 0) {
         let canPlace = true;
-        for (let j = 1; j <= n+1; j++) {
-            if (mio[y1 - j]=== undefined || mio[y1 - j][x1] === 1 || mio[y1 - j][x1] === undefined || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
+        for (let j = 0; j <= n; j++) {
+            if (mio[y1 - j][x1] === 1 || mio[y1 - j][x1] === undefined || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -112,10 +112,10 @@ const controllaPosizione=(mio, x1, y1)=>{
             possibilità.push("alto");
         }
     }
-    else if (x1 + n < 10) {
+    if (x1 + n < 10) {
         let canPlace = true;
-        for (let j = 1; j <= n+1; j++) {
-            if (mio[x1 + j] === undefined || mio[y1][x1 + j] === 1 || mio[y1][x1 + j] === undefined || mio[y1+1][x1+j]===1 || mio[y1-1][x1+j]===1) {
+        for (let j = 0; j <= n; j++) {
+            if (mio[y1][x1 + j] === 1 || mio[y1][x1 + j] === undefined || mio[y1+1][x1+j]===1 || mio[y1-1][x1+j]===1) {
                 canPlace = false;
                 break;
             }
@@ -125,10 +125,10 @@ const controllaPosizione=(mio, x1, y1)=>{
             possibilità.push("destra");
         }
     }
-    else if (x1 - n >= 0) {
+    if (x1 - n >= 0) {
         let canPlace = true;
-        for (let j = 1; j <= n+1; j++) {
-            if (mio[x1 - j] === undefined || mio[y1][x1 - j] === 1 || mio[y1][x1 - j] === undefined || mio[y1+1][x1-j]===1 || mio[y1-1][x1-j]===1) {
+        for (let j = 0; j <= n; j++) {
+            if (mio[y1][x1 - j] === 1 || mio[y1][x1 - j] === undefined || mio[y1+1][x1-j]===1 || mio[y1-1][x1-j]===1) {
                 canPlace = false;
                 break;
             }
@@ -137,9 +137,6 @@ const controllaPosizione=(mio, x1, y1)=>{
             console.log("è possibile posizionare la nave verso sinistra");
             possibilità.push("sinistra");
         }
-    }
-    else{
-        console.log("Impossibile posizionare la nave in questa zona");
     }
 
     let index = Math.floor(Math.random() * possibilità.length);
@@ -166,6 +163,8 @@ const controllaPosizione=(mio, x1, y1)=>{
             mio[y1][x1 - l] = 1;
         }
         console.log("verso sinistra");
+    } else{
+        console.log("impossibile piazzare la nave")
     }
 }
 
