@@ -5,6 +5,10 @@ let ctx2 = canvas2.getContext("2d");
 const bw = 600;
 const bh = 600;
 const cellSize = 60;
+const avv = [];
+for (let i = 0; i < 10; i++) {
+    avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+}
 
 //Funzione per disegnare la prima griglia
 const primaGriglia = (mio) => {
@@ -66,29 +70,42 @@ const mio = [];
 for (let i = 0; i < 10; i++) {
     mio.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 }
-const avv = [];
-for (let i = 0; i < 10; i++) {
-    avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-}
-const generaPunto=(mio)=> {
-    let isValid = false;
-    let x1, y1;
-    while (!isValid) {
-      x1 = Math.floor(Math.random() * 10);
-      y1 = Math.floor(Math.random() * 10);
-      isValid = controllaintorni(mio, x1, y1);
+
+const posizionamentoNavi = (mio, x1, y1, possibilità) =>{
+    let index = Math.floor(Math.random() * possibilità.length);
+    console.log("valore", possibilità[index]);
+    if (possibilità[index] === "basso") {
+        for (let l = 1; l <= n; l++) {
+            mio[y1 + l][x1] = 1;
+        }
+        console.log("verso il basso");
+    } else if (possibilità[index] === "alto") {
+        for (let l = 1; l <= n; l++) {
+            mio[y1 - l][x1] = 1;
+        }
+        console.log("verso l'alto");
+    } else if (possibilità[index] === "destra") {
+        for (let l = 1; l <= n; l++) {
+            mio[y1][x1 + l] = 1;
+        }
+        console.log("verso destra");
+    } else if (possibilità[index] === "sinistra") {
+        for (let l = 1; l <= n; l++) {
+            mio[y1][x1 - l] = 1;
+        }
+        console.log("verso sinistra");
+    } else{
+        console.log("impossibile piazzare la nave")
     }
-    mio[x1][y1] = 1;
-    controllaPosizione(mio, x1, y1)
 }
 
-const controllaPosizione=(mio, x1, y1)=>{
+const controllaPosizione=(mio, x1, y1, n)=>{
     //Controllo dov'è possibile posizionare le navi  //mio[y1 + j]=== undefined || 
     let possibilità = [];
     console.log("valori x e y", x1, y1)
     if (y1 + n < 10) {
         let canPlace = true;
-        for (let j = 0; j <= n; j++) {
+        for (let j = 1; j <= n; j++) {
             if (mio[y1 + j][x1] === 1 || mio[y1 + j][x1] === undefined || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
                 canPlace = false;
                 break;
@@ -101,7 +118,7 @@ const controllaPosizione=(mio, x1, y1)=>{
     }
     if (y1 - n >= 0) {
         let canPlace = true;
-        for (let j = 0; j <= n; j++) {
+        for (let j = 1; j <= n; j++) {
             if (mio[y1 - j][x1] === 1 || mio[y1 - j][x1] === undefined || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
                 canPlace = false;
                 break;
@@ -114,7 +131,7 @@ const controllaPosizione=(mio, x1, y1)=>{
     }
     if (x1 + n < 10) {
         let canPlace = true;
-        for (let j = 0; j <= n; j++) {
+        for (let j = 1; j <= n; j++) {
             if (mio[y1][x1 + j] === 1 || mio[y1][x1 + j] === undefined || mio[y1+1][x1+j]===1 || mio[y1-1][x1+j]===1) {
                 canPlace = false;
                 break;
@@ -127,7 +144,7 @@ const controllaPosizione=(mio, x1, y1)=>{
     }
     if (x1 - n >= 0) {
         let canPlace = true;
-        for (let j = 0; j <= n; j++) {
+        for (let j = 1; j <= n; j++) {
             if (mio[y1][x1 - j] === 1 || mio[y1][x1 - j] === undefined || mio[y1+1][x1-j]===1 || mio[y1-1][x1-j]===1) {
                 canPlace = false;
                 break;
@@ -138,48 +155,37 @@ const controllaPosizione=(mio, x1, y1)=>{
             possibilità.push("sinistra");
         }
     }
-
-    let index = Math.floor(Math.random() * possibilità.length);
-    console.log("valore", possibilità[index]);
-
-    //Posizionamento navi
-    if (possibilità[index] === "basso") {
-        for (let l = 0; l <= n; l++) {
-            mio[y1 + l][x1] = 1;
-        }
-        console.log("verso il basso");
-    } else if (possibilità[index] === "alto") {
-        for (let l = 0; l <= n; l++) {
-            mio[y1 - l][x1] = 1;
-        }
-        console.log("verso l'alto");
-    } else if (possibilità[index] === "destra") {
-        for (let l = 0; l <= n; l++) {
-            mio[y1][x1 + l] = 1;
-        }
-        console.log("verso destra");
-    } else if (possibilità[index] === "sinistra") {
-        for (let l = 0; l <= n; l++) {
-            mio[y1][x1 - l] = 1;
-        }
-        console.log("verso sinistra");
-    } else{
-        console.log("impossibile piazzare la nave")
+    if (possibilità.length>0){
+        posizionamentoNavi(mio,x1, y1, possibilità)
+    }else{
+        console.log("nave impossibile da piazzare")
+        generaPunto(mio)
     }
 }
-
   
 const controllaintorni=(mio, x1, y1)=> {
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
             if (x1 + i >= 0 && x1 + i < 10 && y1 + j >= 0 && y1 + j < 10) {
                 if (mio[x1 + i][y1 + j] === 1) {
-                return false;
+                return true;
                 }
             }
         }
     }
-    return true;
+    return false;
+}
+
+const generaPunto=(mio, n)=> {
+    let isValid = true;
+    let x1, y1;
+    while (isValid) {
+      x1 = Math.floor(Math.random() * 10);
+      y1 = Math.floor(Math.random() * 10);
+      isValid = controllaintorni(mio, x1, y1);
+    }
+    mio[x1][y1] = 1;
+    controllaPosizione(mio, x1, y1, n)
 }
 
 const creazioneGrigliaNavi = (mio, n) => {
@@ -207,7 +213,7 @@ const creazioneGrigliaNavi = (mio, n) => {
 
 creazioneGrigliaNavi(mio, n);
 
-const creazioneGrigliaNaviAvv = (avv, n) => {
+/*const creazioneGrigliaNaviAvv = (avv, n) => {
     let nTemp = n;
     for (let i = 0; i < 5; i++) {
         if (nTemp !== 1) {
@@ -228,7 +234,7 @@ const creazioneGrigliaNaviAvv = (avv, n) => {
             secondaGriglia(avv);
         }
     }
-}
+}*/
 
 /*
 // Creazione di una matrice 10x10 con tutti gli elementi impostati su zero
