@@ -103,7 +103,7 @@ const controllaPosizione=(mio, x1, y1, n)=>{
     //Controllo dov'è possibile posizionare le navi  //mio[y1 + j]=== undefined || 
     let possibilità = [];
     console.log("valori x e y", x1, y1)
-    if (y1 + n < 10) {
+    if (y1 + n <= 9) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
             if (mio[y1 + j][x1] === 1 || mio[y1 + j][x1] === undefined || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
@@ -129,9 +129,10 @@ const controllaPosizione=(mio, x1, y1, n)=>{
             possibilità.push("alto");
         }
     }
-    if (x1 + n < 10) {
+    if (x1 + n <= 9) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
+            console.log(mio[y1][x1 + j], mio[y1][x1 + j], mio[y1+1][x1+j], mio[y1-1][x1+j])
             if (mio[y1][x1 + j] === 1 || mio[y1][x1 + j] === undefined || mio[y1+1][x1+j]===1 || mio[y1-1][x1+j]===1) {
                 canPlace = false;
                 break;
