@@ -22,11 +22,11 @@ const primaGriglia = (mio) => {
     }
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
-            if (mio[y][x] === 1) { 
-                const cellX = x * cellSize + 10;
-                const cellY = y * cellSize + 10;
+            if (mio[y][x]=== 1) { 
+                const cellX = x*cellSize + 10;
+                const cellY = y*cellSize + 10;
                 ctx1.beginPath();
-                ctx1.arc(cellX + cellSize / 2, cellY + cellSize / 2, cellSize / 4, 0, Math.PI * 2);
+                ctx1.arc(cellX + cellSize/2, cellY + cellSize/2, cellSize/ 4, 0, Math.PI*2);
                 ctx1.fillStyle = "red";
                 ctx1.fill();
                 ctx1.closePath();
@@ -48,10 +48,10 @@ const secondaGriglia = (avv) => {
 
     canvas2.addEventListener("click", (event) => {
         const rect = canvas2.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const clickY = event.clientY - rect.top;
-        const xx = Math.floor(clickX / cellSize);
-        const yy = Math.floor(clickY / cellSize);
+        const clickX = event.clientX-rect.left;
+        const clickY = event.clientY-rect.top;
+        const xx = Math.floor(clickX/cellSize);
+        const yy = Math.floor(clickY/cellSize);
         console.log("Cliccato sulla cella: ", xx, yy);
         if (avv[yy] && avv[yy][xx] === 1) {
             console.log("nave colpita");
@@ -73,19 +73,19 @@ for (let i = 0; i < 10; i++) {
 const posizionamentoNavi = (mio, x1, y1, possibilità) => {
     let index = Math.floor(Math.random() * possibilità.length);
     console.log("valore", possibilità[index]);
-    if (possibilità[index] === "basso") {
+    if (possibilità[index]=== "basso") {
         for (let l = 1; l <= n; l++) {
             aggiornaCelle(mio, y1 + l, x1);
         }
         console.log("verso il basso");
     }
-    if (possibilità[index] === "alto") {
+    if (possibilità[index]=== "alto") {
         for (let l = 1; l <= n; l++) {
             aggiornaCelle(mio, y1 - l, x1);
         }
         console.log("verso l'alto");
     }
-    if (possibilità[index] === "destra") {
+    if (possibilità[index]=== "destra") {
         for (let l = 1; l <= n; l++) {
             aggiornaCelle(mio, y1, x1 + l);
         }
@@ -110,11 +110,7 @@ const controllaPosizione = (mio, x1, y1, n) => {
     if (y1 + n < 10) {
         let canPlace = true;
         for (let j = 0; j < n; j++) {
-            if (mio[y1 + j][x1] === undefined ||
-                mio[y1 + j][x1] === 1 ||
-                mio[y1 + j][x1 + 1] === 1 ||
-                mio[y1 + j][x1 - 1] === 1
-            ) {
+            if (mio[y1+j][x1] === undefined || mio[y1+j][x1] === 1 || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -129,11 +125,7 @@ const controllaPosizione = (mio, x1, y1, n) => {
     if (y1 - n >= 0) {
         let canPlace = true;
         for (let j = 0; j < n; j++) {
-            if (mio[y1 - j][x1] === undefined ||
-                mio[y1 - j][x1] === 1 ||
-                mio[y1 - j][x1 + 1] === 1 ||
-                mio[y1 - j][x1 - 1] === 1
-            ) {
+            if (mio[y1-j][x1] === undefined || mio[y1-j][x1] === 1 || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -148,11 +140,7 @@ const controllaPosizione = (mio, x1, y1, n) => {
     if (x1 + n < 10) {
         let canPlace = true;
         for (let j = 0; j < n; j++) {
-            if (mio[y1][x1 + j] === undefined ||
-                mio[y1][x1 + j] === 1 ||
-                mio[y1 + 1][x1 + j] === 1 ||
-                mio[y1 - 1][x1 + j] === 1
-            ) {
+            if (mio[y1][x1+j] === undefined || mio[y1][x1+j] === 1 || mio[y1+1][x1+j] === 1 ||mio[y1-1][x1+j] === 1) {
                 canPlace = false;
                 break;
             }
@@ -167,10 +155,10 @@ const controllaPosizione = (mio, x1, y1, n) => {
     if (x1 - n >= 0) {
         let canPlace = true;
         for (let j = 0; j < n; j++) {
-            if (mio[y1][x1 - j] === undefined ||
-                mio[y1][x1 - j] === 1 ||
-                mio[y1 + 1][x1 - j] === 1 ||
-                mio[y1 - 1][x1 - j] === 1
+            if (mio[y1][x1-j] === undefined ||
+                mio[y1][x1-j] === 1 ||
+                mio[y1+1][x1-j] === 1 ||
+                mio[y1-1][x1-j] === 1
             ) {
                 canPlace = false;
                 break;
@@ -199,8 +187,8 @@ const aggiornaCelle = (y, x) => {
 const controllaIntorni = (mio, x1, y1) => {
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
-            let x2 = x1 + i;
-            let y2 = y1 + j;
+            let x2 = x1+i;
+            let y2 = y1+j;
             if (x2 >= 0 && x2 < 10 && y2 >= 0 && y2 < 10) {
                 if (mio[y2][x2] === 1) {
                     return true;
@@ -246,7 +234,7 @@ const creazioneGrigliaNavi = (mio, n) => {
     }
 };
 
-
+/*
 const creazioneGrigliaNaviAvv = (avv, n) => {
     let nTemp = n;
     for (let i = 0; i < 5; i++) {
@@ -304,7 +292,7 @@ const controllaPosizioneAvv = (avv, x1, y1, n) => {
     if (y1 + n < 10) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
-            if (avv[y1 + j][x1] === undefined || avv[y1 + j][x1] === 1 || avv[y1 + j][x1 + 1] === 1 || avv[y1 + j][x1 - 1] === 1) {
+            if (avv[y1 + j][x1] === undefined || avv[y1+j][x1] === 1 || avv[y1+j][x1+1] === 1 || avv[y1+j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -317,7 +305,7 @@ const controllaPosizioneAvv = (avv, x1, y1, n) => {
     if (y1 - n >= 0) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
-            if (avv[y1 - j][x1] === undefined || avv[y1 - j][x1] === 1 || avv[y1 - j][x1 + 1] === 1 || avv[y1 - j][x1 - 1] === 1) {
+            if (avv[y1-j][x1] === undefined || avv[y1-j][x1] === 1 || avv[y1-j][x1+1] === 1 || avv[y1-j][x1-1] === 1) {
                 canPlace = false;
                 break;
             }
@@ -330,7 +318,7 @@ const controllaPosizioneAvv = (avv, x1, y1, n) => {
     if (x1 + n < 10) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
-            if (avv[y1][x1 + j] === undefined || avv[y1][x1 + j] === 1 || avv[y1 + 1][x1 + j] === 1 || avv[y1 - 1][x1 + j] === 1) {
+            if (avv[y1][x1+j] === undefined || avv[y1][x1+j] === 1 || avv[y1+1][x1+j] === 1 || avv[y1-1][x1+j] === 1) {
                 canPlace = false;
                 break;
             }
@@ -343,7 +331,7 @@ const controllaPosizioneAvv = (avv, x1, y1, n) => {
     if (x1 - n >= 0) {
         let canPlace = true;
         for (let j = 1; j <= n; j++) {
-            if (avv[y1][x1 - j] === undefined || avv[y1][x1 - j] === 1 || avv[y1 + 1][x1 - j] === 1 || avv[y1 - 1][x1 - j] === 1) {
+            if (avv[y1][x1-j] === undefined || avv[y1][x1-j] === 1 || avv[y1+1][x1-j] === 1 || avv[y1-1][x1-j] === 1) {
                 canPlace = false;
                 break;
             }
@@ -370,8 +358,8 @@ const aggiornaCelleAvv = (avv, y, x) => {
 const controllaIntorniAvv = (avv, x1, y1) => {
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
-            let x2 = x1 + i;
-            let y2 = y1 + j;
+            let x2 = x1+i;
+            let y2 = y1+j;
             if (x2 >= 0 && x2 < 10 && y2 >= 0 && y2 < 10) {
                 if (avv[y2][x2] === 1) {
                     return true;
@@ -393,9 +381,9 @@ const generaPuntoAvv = (avv, n) => {
     avv[y1][x1] = 1;
     controllaPosizioneAvv(avv, x1, y1, n);
 };
-
+*/
 creazioneGrigliaNavi(mio, n);
-creazioneGrigliaNaviAvv(mio, n);
+//creazioneGrigliaNaviAvv(mio, n);
 
 /*const controlloGriglia = (mio, n) => {
     let x1, y1;
