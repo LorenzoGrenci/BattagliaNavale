@@ -5,10 +5,10 @@ let ctx2 = canvas2.getContext("2d");
 const bw = 600;
 const bh = 600;
 const cellSize = 60;
-const avv = [];
+/*const avv = [];
 for (let i = 0; i < 10; i++) {
     avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-}
+}*/
 
 //Funzione per disegnare la prima griglia
 const primaGriglia = (mio) => {
@@ -32,7 +32,7 @@ const primaGriglia = (mio) => {
             }
         }  
     }
-    creazioneGrigliaNaviAvv(avv, n);
+    //creazioneGrigliaNaviAvv(avv, n);
 };
 
 // Funzione per disegnare la seconda griglia
