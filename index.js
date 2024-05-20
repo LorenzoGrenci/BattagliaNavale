@@ -62,6 +62,9 @@ io.on('connection', socket =>{
   socket.emit("giocatore-numero", indiceGiocatori);
   console.log(`Giocatore ${indiceGiocatori} si è connesso`);
 
+  connessioni[indiceGiocatori] = false;
+  //dire che giocatore si è connesso
+  socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
 });
 
 //Login

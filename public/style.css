@@ -95,3 +95,18 @@ body{
     display: flex;
     justify-content: space-between;
 }
+
+.connesso, .pronto{
+    font-weight: normal;
+}
+.connesso span,
+.pronto span{
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    background: red;
+
+}
+span.green {
+    background: green;
+}
