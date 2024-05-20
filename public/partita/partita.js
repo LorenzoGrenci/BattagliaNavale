@@ -5,11 +5,11 @@ let ctx2 = canvas2.getContext("2d");
 const bw = 600;
 const bh = 600;
 const cellSize = 60;
-
+/*
 const avv = [];
 for (let i = 0; i < 10; i++) {
     avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-}
+}*/
 
 // Funzione per disegnare la prima griglia
 const primaGriglia = (mio) => {
@@ -70,35 +70,41 @@ for (let i = 0; i < 10; i++) {
     mio.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 }
 
+const aggiornaCelle = (y, x) => {
+    if (y >= 0 && y < 10 && x >= 0 && x < 10) {
+        mio[y][x] = 1;
+    }
+};
+
 const posizionamentoNavi = (mio, x1, y1, possibilità) => {
     let index = Math.floor(Math.random() * possibilità.length);
     console.log("valore", possibilità[index]);
     if (possibilità[index]=== "basso") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(mio, y1 + l, x1);
+            aggiornaCelle(y1 + l, x1);
         }
         console.log("verso il basso");
     }
     if (possibilità[index]=== "alto") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(mio, y1 - l, x1);
+            aggiornaCelle(y1 - l, x1);
         }
         console.log("verso l'alto");
     }
     if (possibilità[index]=== "destra") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(mio, y1, x1 + l);
+            aggiornaCelle(y1, x1 + l);
         }
         console.log("verso destra");
     }
     if (possibilità[index] === "sinistra") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(mio, y1, x1 - l);
+            aggiornaCelle(y1, x1 - l);
         }
         console.log("verso sinistra");
     } else {
         console.log("impossibile piazzare la nave");
-        generaPunto(mio, n)
+        //generaPunto(mio, n)
     }
 };
 
@@ -108,11 +114,36 @@ const controllaPosizione = (mio, x1, y1, n) => {
 
     // Controllo posizione verso il basso
     if (y1 + n < 10) {
+        console.log("controllo verso il basso")
         let canPlace = true;
-        for (let j = 0; j < n; j++) {
-            if (mio[y1+j][x1] === undefined || mio[y1+j][x1] === 1 || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
-                canPlace = false;
-                break;
+        if (x1===0){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1+j][x1] === undefined) {
+                    if (mio[y1+j][x1] === 1 || mio[y1+j][x1+1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (x1===9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1+j][x1] === undefined) {
+                    if (mio[y1+j][x1] === 1 || mio[y1+j][x1-1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (x1!==0 && x1!==9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1+j][x1] === undefined) {
+                    if (mio[y1+j][x1] === 1 || mio[y1+j][x1+1] === 1 || mio[y1+j][x1-1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
             }
         }
         if (canPlace) {
@@ -123,11 +154,36 @@ const controllaPosizione = (mio, x1, y1, n) => {
 
     // Controllo posizione verso l'alto
     if (y1 - n >= 0) {
+        console.log("controllo verso l'alto")
         let canPlace = true;
-        for (let j = 0; j < n; j++) {
-            if (mio[y1-j][x1] === undefined || mio[y1-j][x1] === 1 || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
-                canPlace = false;
-                break;
+        if (x1===0){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1-j][x1] === undefined){
+                    if (mio[y1-j][x1] === 1 || mio[y1-j][x1+1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (x1===9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1-j][x1] === undefined) {
+                    if (mio[y1-j][x1] === 1 || mio[y1-j][x1-1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (x1!==0 && x1!==9) {
+            for (let j = 0; j < n; j++) {
+                if (mio[y1-j][x1] === undefined) {
+                    if (mio[y1-j][x1] === 1 || mio[y1-j][x1+1] === 1 || mio[y1-j][x1-1] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
             }
         }
         if (canPlace) {
@@ -138,11 +194,36 @@ const controllaPosizione = (mio, x1, y1, n) => {
 
     // Controllo posizione verso destra
     if (x1 + n < 10) {
+        console.log("controllo verso destra")
         let canPlace = true;
-        for (let j = 0; j < n; j++) {
-            if (mio[y1][x1+j] === undefined || mio[y1][x1+j] === 1 || mio[y1+1][x1+j] === 1 ||mio[y1-1][x1+j] === 1) {
-                canPlace = false;
-                break;
+        if (y1===0){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1+j] === undefined) {
+                    if (mio[y1][x1+j] === 1 || mio[y1+1][x1+j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (y1===9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1+j] === undefined){
+                    if (mio[y1][x1+j] === 1 || mio[y1-1][x1+j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (y1!==0 && y1!==9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1+j] === undefined) {
+                    if (mio[y1][x1+j] === 1 || mio[y1+1][x1+j] === 1 ||mio[y1-1][x1+j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
             }
         }
         if (canPlace) {
@@ -153,15 +234,36 @@ const controllaPosizione = (mio, x1, y1, n) => {
 
     // Controllo posizione verso sinistra
     if (x1 - n >= 0) {
+        console.log("controllo verso sinistra")
         let canPlace = true;
-        for (let j = 0; j < n; j++) {
-            if (mio[y1][x1-j] === undefined ||
-                mio[y1][x1-j] === 1 ||
-                mio[y1+1][x1-j] === 1 ||
-                mio[y1-1][x1-j] === 1
-            ) {
-                canPlace = false;
-                break;
+        if (y1===0){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1-j] === undefined){
+                    if (mio[y1][x1-j] === 1 || mio[y1+1][x1-j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (y1===9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1-j] === undefined) {
+                    if (mio[y1][x1-j] === 1 || mio[y1-1][x1-j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (y1!==0 && y1!==9){
+            for (let j = 0; j < n; j++) {
+                if (mio[y1][x1-j] === undefined) {
+                    if (mio[y1][x1-j] === 1 || mio[y1+1][x1-j] === 1 || mio[y1-1][x1-j] === 1) {
+                        canPlace = false;
+                        break;
+                    }
+                }
             }
         }
         if (canPlace) {
@@ -174,15 +276,9 @@ const controllaPosizione = (mio, x1, y1, n) => {
         posizionamentoNavi(mio, x1, y1, possibilità);
     } else {
         console.log("nave impossibile da piazzare");
-        generaPunto(mio, n);
+        //generaPunto(mio, n);
     }
-};
-
-const aggiornaCelle = (y, x) => {
-    if (y >= 0 && y < 10 && x >= 0 && x < 10) {
-        mio[y][x] = 1;
-    }
-};
+};  
 
 const controllaIntorni = (mio, x1, y1) => {
     for (let i = -1; i <= 1; i++) {
