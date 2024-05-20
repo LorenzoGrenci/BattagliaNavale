@@ -77,3 +77,21 @@ body{
     text-decoration: none;
     color: white;
 }
+#btn_modalita{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+#Giocatore-1{
+    display: flex;
+}
+#Giocatore-2{
+    display: flex;
+    flex-direction: row-reverse;
+}
+#lista_giocatori{
+    display: flex;
+    justify-content: space-between;
+}
