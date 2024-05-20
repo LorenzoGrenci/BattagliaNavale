@@ -62,9 +62,18 @@ io.on('connection', socket =>{
   socket.emit("giocatore-numero", indiceGiocatori);
   console.log(`Giocatore ${indiceGiocatori} si è connesso`);
 
+ 
+  
   connessioni[indiceGiocatori] = false;
   //dire che giocatore si è connesso
   socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
+  //disconnessioni
+  socket.on('disconnesso', () =>{
+    console.log(`Giocatore ${indiceGiocatori} disconnesso`);
+    connessioni[indiceGiocatori] = null;
+    //che giocatore si è disconnesso
+    socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
+  })
 });
 
 //Login
@@ -91,7 +100,7 @@ app.post("/login", (req, res) => {
       //login non valida
       res.status(401); //errore 401
       res.json({ result: "Unauthorized" });
-    }
+    };
   });
 });
 
