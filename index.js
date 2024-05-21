@@ -80,10 +80,6 @@ io.on("connection", (socket) => {
   socket.on("message", (data) => {});
 });
 
-
-
-
-
 /*
 const io = socketio(server);
 
@@ -117,7 +113,7 @@ io.on('connection', socket =>{
     //che giocatore si è disconnesso
     socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
   })
-});
+});*/
 
 //Login
 const checkLogin = (user, pass) => {
