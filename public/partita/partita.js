@@ -1,4 +1,3 @@
-
 const bw = 600;
 const bh = 600;
 const cellSize = 60;
@@ -33,8 +32,8 @@ export const primaGriglia = (mio, ctx1) => {
 };
 
 // Funzione per disegnare la seconda griglia
-const secondaGriglia = (avv) => {
-    console.log("lista griglia", avv);
+ export const secondaGriglia = (ctx2) => {
+    console.log("lista griglia");
     ctx2.lineWidth = 5;
     ctx2.strokeStyle = "black";
     for (let x = 0; x < bw; x += cellSize) {
@@ -42,16 +41,23 @@ const secondaGriglia = (avv) => {
             ctx2.strokeRect(x + 10, y + 10, cellSize, cellSize);
         }
     }
-
-    canvas2.addEventListener("click", (event) => {
-        const rect = canvas2.getBoundingClientRect();
-        const clickX = event.clientX-rect.left;
-        const clickY = event.clientY-rect.top;
-        const xx = Math.floor(clickX/cellSize);
-        const yy = Math.floor(clickY/cellSize);
-        console.log("Cliccato sulla cella: ", xx, yy);
-    });
 };
 
+export const caricaRisultato = (ctx2, x, y, state) =>{
+    let color
+    if (state){
+        color = "yellow"
+        
+    }else{
+        color = "blue"
+    }
+    const cellX = x*cellSize + 10;
+    const cellY = y*cellSize + 10;
+    ctx2.beginPath();
+    ctx2.arc(cellX + cellSize/2, cellY + cellSize/2, cellSize/ 4, 0, Math.PI*2);
+    ctx2.fillStyle = color;
+    ctx2.fill();
+    ctx2.closePath();
+}
 
 

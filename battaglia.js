@@ -1,51 +1,75 @@
+const creazioneGrigliaNavi = (mio) => {
+    let n = 5;
+    let n_navi = 0;
+    for (let i = 0; i < 5; i++) {
+        if (n !== 1) {
+            if (n === 2) {
+                generaPunto(mio, n);
+                n_navi++;
+                generaPunto(mio, n);
+                n_navi++;
+                n--;
+            } else {
+                generaPunto(mio, n);
+                n_navi++;
+                n--;
+                //console.log(n)
+            }
+        } else {
+            //console.log("disposizione completata");
+            //console.log(mio, n_navi);
+            return mio
+        }
+    }
+};
 
 
-const aggiornaCelle = (y, x) => {
+const aggiornaCelle = (mio, y, x) => {
     if (y >= 0 && y < 10 && x >= 0 && x < 10) {
         mio[y][x] = 1;
     }
 };
 
-const posizionamentoNavi = (x1, y1, possibilità, n) => {
-    console.log(possibilità)
+const posizionamentoNavi = (mio, x1, y1, possibilità, n) => {
+    //console.log(possibilità)
     let index = Math.floor(Math.random() * possibilità.length);
-    console.log("valore", possibilità[index]);
+    //console.log("valore", possibilità[index]);
     if (possibilità[index]=== "basso") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(y1 + l, x1);
+            aggiornaCelle(mio, y1 + l, x1);
         }
-        console.log("verso il basso");
+        //console.log("verso il basso");
     }
     if (possibilità[index]=== "alto") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(y1 - l, x1);
+            aggiornaCelle(mio, y1 - l, x1);
         }
-        console.log("verso l'alto");
+        //console.log("verso l'alto");
     }
     if (possibilità[index]=== "destra") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(y1, x1 + l);
+            aggiornaCelle(mio, y1, x1 + l);
         }
-        console.log("verso destra");
+        //console.log("verso destra");
     }
     if (possibilità[index] === "sinistra") {
         for (let l = 1; l <= n; l++) {
-            aggiornaCelle(y1, x1 - l);
+            aggiornaCelle(mio, y1, x1 - l);
         }
-        console.log("verso sinistra");
+        //console.log("verso sinistra");
     } else {
-        console.log("impossibile piazzare la nave");
+        //console.log("impossibile piazzare la nave");
         //generaPunto(mio, n)
     }
 };
 
 const controllaPosizione = (mio, x1, y1, n) => {
     let possibilità = [];
-    console.log("valori x e y", x1, y1);
+    //console.log("valori x e y", x1, y1);
 
     // Controllo posizione verso il basso
     if (y1 + n < 10) {
-        console.log("controllo verso il basso")
+        //console.log("controllo verso il basso")
         let canPlace = true;
         if (x1===0){
             for (let j = 0; j <= n; j++) {
@@ -123,14 +147,14 @@ const controllaPosizione = (mio, x1, y1, n) => {
             }
         }
         if (canPlace) {
-            console.log("è possibile posizionare la nave verso il basso");
+            //console.log("è possibile posizionare la nave verso il basso");
             possibilità.push("basso");
         }
     }
 
     // Controllo posizione verso l'alto
     if (y1 - n >= 0) {
-        console.log("controllo verso l'alto")
+        //console.log("controllo verso l'alto")
         let canPlace = true;
         if (x1===0){
             for (let j = 0; j <= n; j++) {
@@ -208,14 +232,14 @@ const controllaPosizione = (mio, x1, y1, n) => {
             }
         }
         if (canPlace) {
-            console.log("è possibile posizionare la nave verso l'alto");
+            //console.log("è possibile posizionare la nave verso l'alto");
             possibilità.push("alto");
         }
     }
 
     // Controllo posizione verso destra
     if (x1 + n < 10) {
-        console.log("controllo verso destra")
+        //console.log("controllo verso destra")
         let canPlace = true;
         if (y1===0){
             for (let j = 0; j <= n; j++) {
@@ -293,14 +317,14 @@ const controllaPosizione = (mio, x1, y1, n) => {
             }
         }
         if (canPlace) {
-            console.log("è possibile posizionare la nave verso destra");
+            //console.log("è possibile posizionare la nave verso destra");
             possibilità.push("destra");
         }
     }
 
     // Controllo posizione verso sinistra
     if (x1 - n >= 0) {
-        console.log("controllo verso sinistra")
+        //console.log("controllo verso sinistra")
         let canPlace = true;
         if (y1===0){
             for (let j = 0; j <= n; j++) {
@@ -378,16 +402,16 @@ const controllaPosizione = (mio, x1, y1, n) => {
             }
         }
         if (canPlace) {
-            console.log("è possibile posizionare la nave verso sinistra");
+            //console.log("è possibile posizionare la nave verso sinistra");
             possibilità.push("sinistra");
         }
     }
 
     if (possibilità.length > 0) {
-        posizionamentoNavi(x1, y1, possibilità, n);
+        posizionamentoNavi(mio, x1, y1, possibilità, n);
         return true;
     } else {
-        console.log("nave impossibile da piazzare");
+        //console.log("nave impossibile da piazzare");
         return false;
     }
 };  
@@ -423,32 +447,7 @@ const generaPunto = (mio, n) => {
     }
 };
 
-const creazioneGrigliaNavi = (mio) => {
-    let n = 5;
-    let n_navi = 0;
-    for (let i = 0; i < 5; i++) {
-        if (n !== 1) {
-            if (n === 2) {
-                generaPunto(mio, n);
-                n_navi++;
-                generaPunto(mio, n);
-                n_navi++;
-                n--;
-            } else {
-                generaPunto(mio, n);
-                n_navi++;
-                n--;
-                console.log(n)
-            }
-        } else {
-            console.log("disposizione completata");
-            console.log(mio, n_navi);
-            primaGriglia(mio);
-        }
-    }
-};
 
-
-module.exports{
+module.exports={
     creaComp:creazioneGrigliaNavi
 }

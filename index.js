@@ -1,5 +1,5 @@
 const express = require("express");
-const bt=require("battaglia.js")
+const bt=require("./battaglia.js")
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
@@ -8,6 +8,10 @@ const mysql = require("mysql2");
 const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
+let partita={room:"", users:[], index:0}
+let mio = [];
+let players = [];
 
 
 //server
@@ -42,10 +46,15 @@ const executeQuery = (sql) => {
 };
 
 //websocket
-const { Server } = require("socket.io");
 const io = new Server(server);
-let partita={room:"", users:[]}
 
+
+const resetmio=()=>{
+  mio=[]
+  for (let i =0; i<10 ; i++){
+    mio.push([0,0,0,0,0,0,0,0,0,0])
+  }
+}
 io.on("connection", (socket) => {
   console.log("a user connected");
 
@@ -57,12 +66,13 @@ io.on("connection", (socket) => {
       partita.room="partita"
       partita.users.push(socket.id)
       if (partita.users.length===2){
-        
-        for (let i = 0; i < 10; i++) {
-          mio.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-      }
-        creazioneGrigliaNavi(mio);
-        io.to(partita.room).emit("start game")
+        partita.users.forEach(id=>{
+          resetmio()
+          let combinazione = bt.creaComp(mio)
+          io.to(id).emit("start game", {combinazione: combinazione})
+          players.push({combinazione: combinazione, id:id})
+        })
+        io.to(players[partita.index].id).emit("start turn")
       }else{
         io.to(socket.id).emit("solo un giocatore connesso")
       }
@@ -72,8 +82,43 @@ io.on("connection", (socket) => {
     }
     console.log(`User joined room: ${partita}`);
   });
+  socket.on("colpo", (coordinate)=>{
+    let indexNemico 
+    if (partita.index===0){
+      indexNemico = 1 
+    }else{
+      indexNemico = 0
+    }
+    partita.index=indexNemico
+    let enemy = players[indexNemico]
+    console.log(enemy.combinazione[coordinate.y][coordinate.x])
+    if (enemy.combinazione[coordinate.y][coordinate.x]===1){
+      enemy.combinazione[coordinate.y][coordinate.x]=0
+      socket.emit("risultato", {num:1, x: coordinate.x, y: coordinate.y})
+    }else{
+       socket.emit("risultato", {num:0, x: coordinate.x, y: coordinate.y})
+    }
+    let sentinella = false 
+    enemy.combinazione.forEach(row=>{
+      if (row.find(r=>r === 1)===1){
+        sentinella = true
+      }
+    })
+    console.log(sentinella)
+    if (sentinella){
+      io.to(players[partita.index].id).emit("start turn")
+    }else{
+        resetmio()
+        io.to(socket.id).emit("fine partita", 1)
+        io.to(players[partita.index].id).emit("fine partita", 0)
+        players=[]
+      }
+  })
 
   socket.on("disconnect", () => {
+    if (partita.users.find(sid=>sid===socket.id)!== undefined){
+      partita.users.splice(partita.users.indexOf(socket.id), 1)
+    }
     console.log("user disconnected");
   });
 });
