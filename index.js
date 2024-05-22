@@ -1,4 +1,5 @@
 const express = require("express");
+const bt=require("battaglia.js")
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
@@ -43,41 +44,38 @@ const executeQuery = (sql) => {
 //websocket
 const { Server } = require("socket.io");
 const io = new Server(server);
-let chats = [];
+let partita={room:"", users:[]}
 
 io.on("connection", (socket) => {
   console.log("a user connected");
 
   // Unisciti a una room specifica
-  socket.on("join room", (room) => {
-    socket.join(room);
-    console.log(`User joined room: ${room}`);
-    // Se la chat non esiste ancora, la creiamo
-    if (!chats.find((chat) => chat.chat === room)) {
-      chats.push({ chat: room, messaggi: [] });
+  socket.on("join room", () => {
+    console.log(partita)
+    if (partita.users.length < 2) {
+      socket.join("partita");
+      partita.room="partita"
+      partita.users.push(socket.id)
+      if (partita.users.length===2){
+        
+        for (let i = 0; i < 10; i++) {
+          mio.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      }
+        creazioneGrigliaNavi(mio);
+        io.to(partita.room).emit("start game")
+      }else{
+        io.to(socket.id).emit("solo un giocatore connesso")
+      }
     }
-  });
-
-  // Ascolta i messaggi di chat e li trasmette a tutti nella stessa room
-  socket.on("chat message", (room, { username, message, timestamp }) => {
-    io.to(room).emit("chat message", { username, message, timestamp }); // Trasmetti l'username e il messaggio
-    let chat = chats.find((chat) => chat.chat === room);
-    if (chat) {
-      chat.messaggi.push({
-        autore: username,
-        ora: timestamp,
-        messaggio: message,
-      });
+    else{
+      io.to(socket.id).emit("partita già in corso")
     }
-
-    console.log(chats);
+    console.log(`User joined room: ${partita}`);
   });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
-
-  socket.on("message", (data) => {});
 });
 
 /*

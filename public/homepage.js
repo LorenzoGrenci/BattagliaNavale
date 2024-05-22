@@ -1,33 +1,32 @@
 const div_homepage = document.getElementById("tabella_giocatori");
 const cercaPartita = document.getElementById("btn_partita");
+const paginaPartita = document.getElementById("pagina_partita");
+
+let canvas1 = document.getElementById("canvas1");
+let ctx1 = canvas1.getContext("2d");
+let canvas2 = document.getElementById("canvas2");
+let ctx2 = canvas2.getContext("2d");
+
+const mio = [];
+
+
 let giocatoreCorrente="alleato";
 let giocatoreNum=0;
 let pronto=false;
 let nemicoPronto=false;
 let colpiSparati=-1;
+const socket=io();
 
 cercaPartita.addEventListener("click", startCercaPartita);
 
 
 //cercare la partita
 function startCercaPartita(){
-    const socket=io();
+    
+    socket.emit("join room")
 
     //prendere il proprio numero di giocatore
-    socket.on("giocatore-numero", num=>{
-        if(num==-1){
-            div_homepage.innerHTML = "Il server è pieno";
-        }else{
-            giocatoreNum=parseInt(num);
-            if(giocatoreNum==1) giocatoreCorrente="nemico"
-            console.log(giocatoreNum);
-        };
-    });
-    //un altro giocatore si è connesso o disconnesso
-    socket.on('giocatore-connesso', num =>{
-        console.log(`Giocatore numero ${num} si è connesso o disconnesso`);
-        giocatoreConnessoODisconnesso(num);
-    });
+    
 
     function giocatoreConnessoODisconnesso(num) {
         let giocatore = `.p${parseInt(num) + 1}`;
@@ -37,3 +36,17 @@ function startCercaPartita(){
         fontWeight = 'bold';
     };
 };
+
+socket.on("start game",()=>{
+    console.log("dio")
+    paginaPartita.classList.remove("d-none")
+    paginaPartita.classList.add("d-block")
+})
+socket.on("solo un giocatore connesso", ()=>{
+    console.log("1")
+    cercaPartita.innerHTML=`<div class="spinner"></div>`
+})
+socket.on("partita già in corso", ()=>{
+    console.log("2")
+    alert("server pieno")
+})
