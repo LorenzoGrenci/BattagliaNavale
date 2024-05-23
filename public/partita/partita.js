@@ -1,11 +1,6 @@
 const bw = 600;
 const bh = 600;
 const cellSize = 60;
-/*
-const avv = [];
-for (let i = 0; i < 10; i++) {
-    avv.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-}*/
 
 // Funzione per disegnare la prima griglia
 export const primaGriglia = (mio, ctx1) => {
@@ -61,3 +56,19 @@ export const caricaRisultato = (ctx2, x, y, state) =>{
 }
 
 
+export const visualizzaColpo = (ctx1, x, y, state) => {
+    let color
+    if (state){
+        color = "black"
+        
+    }else{
+        color = "blue"
+    }
+    const cellX = x*cellSize + 10;
+    const cellY = y*cellSize + 10;
+    ctx1.beginPath();
+    ctx1.arc(cellX + cellSize/2, cellY + cellSize/2, cellSize/ 4, 0, Math.PI*2);
+    ctx1.fillStyle = color;
+    ctx1.fill();
+    ctx1.closePath();
+}

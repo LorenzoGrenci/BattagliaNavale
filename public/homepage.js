@@ -1,7 +1,8 @@
-const div_homepage = document.getElementById("tabella_giocatori");
+//const div_homepage = document.getElementById("tabella_giocatori");
 const cercaPartita = document.getElementById("btn_partita");
-const paginaPartita = document.getElementById("pagina_partita");
-import {primaGriglia, secondaGriglia, caricaRisultato} from "./partita/partita.js"
+const modalità = document.getElementById("btn_modalita");
+const paginaPartita = document.getElementById("pagina_partita")
+import {primaGriglia, secondaGriglia, caricaRisultato, visualizzaColpo} from "./partita/partita.js"
 
  
 let canvas1 = document.getElementById("canvas1");
@@ -24,19 +25,7 @@ cercaPartita.addEventListener("click", startCercaPartita);
 
 //cercare la partita
 function startCercaPartita(){
-    
     socket.emit("join room")
-
-    //prendere il proprio numero di giocatore
-    
-
-    function giocatoreConnessoODisconnesso(num) {
-        let giocatore = `.p${parseInt(num) + 1}`;
-        console.log(giocatore);
-        document.querySelector(`${giocatore} .connesso span`).classList.toggle('green');
-        if(parseInt(num) == giocatoreNum) document.querySelector(giocatore).style.
-        fontWeight = 'bold';
-    };
 };
 
 const controllaColpo = (ciccio) =>{
@@ -56,25 +45,37 @@ const controllaColpo = (ciccio) =>{
 
 socket.on("start game",(data)=>{
     primaGriglia(data.combinazione, ctx1)
-    console.log(ctx2)
     secondaGriglia(ctx2)
-    console.log("dio")
     paginaPartita.classList.remove("d-none")
     paginaPartita.classList.add("d-block")
+    modalità.classList.remove("d-block")
+    modalità.classList.add("d-none")
+    console.log("fatto")
 })
+
 socket.on("solo un giocatore connesso", ()=>{
     console.log("1")
     cercaPartita.innerHTML=`<div class="spinner"></div>`
 })
+
 socket.on("partita già in corso", ()=>{
     console.log("2")
     alert("server pieno")
 })
+
 socket.on("start turn", ()=>{
     let ciccio = true
     alert("è il tuo turno")
     console.log("è il tuo turno")
     controllaColpo(ciccio)
+})
+
+socket.on("hit", (data)=>{
+    if (data.num===1){
+        visualizzaColpo(ctx1, data.x, data.y, true)
+    }else{
+        visualizzaColpo(ctx1, data.x, data.y, false)
+    }
 })
 socket.on("risultato", (data)=>{
     if (data.num===1){

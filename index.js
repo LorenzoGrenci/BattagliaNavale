@@ -9,7 +9,7 @@ const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
-let partita={room:"", users:[], index:0}
+let partita = {room:"", users:[], index:0}
 let mio = [];
 let players = [];
 
@@ -47,7 +47,6 @@ const executeQuery = (sql) => {
 
 //websocket
 const io = new Server(server);
-
 
 const resetmio=()=>{
   mio=[]
@@ -89,21 +88,27 @@ io.on("connection", (socket) => {
     }else{
       indexNemico = 0
     }
+
     partita.index=indexNemico
     let enemy = players[indexNemico]
     console.log(enemy.combinazione[coordinate.y][coordinate.x])
     if (enemy.combinazione[coordinate.y][coordinate.x]===1){
       enemy.combinazione[coordinate.y][coordinate.x]=0
       socket.emit("risultato", {num:1, x: coordinate.x, y: coordinate.y})
+      io.to(players[partita.index].id).emit("hit", {num:1, x: coordinate.x, y: coordinate.y})
+
     }else{
        socket.emit("risultato", {num:0, x: coordinate.x, y: coordinate.y})
+       io.to(players[partita.index].id).emit("hit", {num:0, x: coordinate.x, y: coordinate.y})
     }
+    
     let sentinella = false 
     enemy.combinazione.forEach(row=>{
       if (row.find(r=>r === 1)===1){
         sentinella = true
       }
     })
+
     console.log(sentinella)
     if (sentinella){
       io.to(players[partita.index].id).emit("start turn")
@@ -122,41 +127,6 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
 });
-
-/*
-const io = socketio(server);
-
-const connessioni = [null, null]
-io.on('connection', socket =>{
-  //console.log("Nuova connessione WS");
-  //trovare nuove connessioni
-  let indiceGiocatori = -1;
-  for (const i in connessioni) {
-    if(connessioni[i] === null){
-      indiceGiocatori = i
-      break
-    }
-  }
-
-  //ingorare la terza connessione
-  if (indiceGiocatori === -1) return
-  //dire ai giocatori che numero sono
-  socket.emit("giocatore-numero", indiceGiocatori);
-  console.log(`Giocatore ${indiceGiocatori} si è connesso`);
-
- 
-  
-  connessioni[indiceGiocatori] = false;
-  //dire che giocatore si è connesso
-  socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
-  //disconnessioni
-  socket.on('disconnesso', () =>{
-    console.log(`Giocatore ${indiceGiocatori} disconnesso`);
-    connessioni[indiceGiocatori] = null;
-    //che giocatore si è disconnesso
-    socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
-  })
-});*/
 
 //Login
 const checkLogin = (user, pass) => {
@@ -212,14 +182,6 @@ app.post("/registrazione", (req, res) => {
         res.json({ result: "Unauthorized" });
       }
     });
-    /*console.log(result);
-    if (result.length > 0) {
-      res.json({ result: "Ok" });
-    } else {
-      //errore registrazione
-      res.status(401); //errore 401
-      res.json({ result: "Error" });
-    }*/
   });
 });
 
