@@ -2,8 +2,8 @@
 const cercaPartita = document.getElementById("btn_partita");
 const jannikSpinner = document.getElementById("div_spinner")
 const paginaPartita = document.getElementById("pagina_partita");
-import {primaGriglia, secondaGriglia, caricaRisultato} from "./partita/partita.js"
-
+const modalità = document.getElementById("btn_modalita")
+import {primaGriglia, secondaGriglia, caricaRisultato, visualizzaColpo} from "./partita/partita.js"
  
 let canvas1 = document.getElementById("canvas1");
 let ctx1 = canvas1.getContext("2d");
@@ -11,13 +11,6 @@ let canvas2 = document.getElementById("canvas2");
 let ctx2 = canvas2.getContext("2d");
 const cellSize = 60;
 
-
-
-let giocatoreCorrente="alleato";
-let giocatoreNum=0;
-let pronto=false;
-let nemicoPronto=false;
-let colpiSparati=-1;
 const socket=io();
 
 cercaPartita.addEventListener("click", startCercaPartita);
@@ -48,7 +41,7 @@ socket.on("start game",(data)=>{
     secondaGriglia(ctx2)
     paginaPartita.classList.remove("d-none")
     paginaPartita.classList.add("d-block")
-    modalità.classList.remove("d-block")
+    modalità.classList.remove("d-flex")
     modalità.classList.add("d-none")
     console.log("fatto")
 })
@@ -91,7 +84,7 @@ socket.on("fine partita", (data)=>{
     if (data === 1){
         alert("hai vinto")
     }else{
-        alert("ha perso")
+        alert("hai perso")
     }
     window.location.href="./homepage.html"
 })
