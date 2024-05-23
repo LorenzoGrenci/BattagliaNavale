@@ -1,8 +1,8 @@
 //const div_homepage = document.getElementById("tabella_giocatori");
 const cercaPartita = document.getElementById("btn_partita");
-const modalità = document.getElementById("btn_modalita");
-const paginaPartita = document.getElementById("pagina_partita")
-import {primaGriglia, secondaGriglia, caricaRisultato, visualizzaColpo} from "./partita/partita.js"
+const jannikSpinner = document.getElementById("div_spinner")
+const paginaPartita = document.getElementById("pagina_partita");
+import {primaGriglia, secondaGriglia, caricaRisultato} from "./partita/partita.js"
 
  
 let canvas1 = document.getElementById("canvas1");
@@ -55,7 +55,7 @@ socket.on("start game",(data)=>{
 
 socket.on("solo un giocatore connesso", ()=>{
     console.log("1")
-    cercaPartita.innerHTML=`<div class="spinner"></div>`
+    jannikSpinner.innerHTML=`<div class="spinner"></div>`
 })
 
 socket.on("partita già in corso", ()=>{
