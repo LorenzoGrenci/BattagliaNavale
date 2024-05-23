@@ -123,40 +123,6 @@ io.on("connection", (socket) => {
   });
 });
 
-/*
-const io = socketio(server);
-
-const connessioni = [null, null]
-io.on('connection', socket =>{
-  //console.log("Nuova connessione WS");
-  //trovare nuove connessioni
-  let indiceGiocatori = -1;
-  for (const i in connessioni) {
-    if(connessioni[i] === null){
-      indiceGiocatori = i
-      break
-    }
-  }
-
-  //ingorare la terza connessione
-  if (indiceGiocatori === -1) return
-  //dire ai giocatori che numero sono
-  socket.emit("giocatore-numero", indiceGiocatori);
-  console.log(`Giocatore ${indiceGiocatori} si è connesso`);
-
- 
-  
-  connessioni[indiceGiocatori] = false;
-  //dire che giocatore si è connesso
-  socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
-  //disconnessioni
-  socket.on('disconnesso', () =>{
-    console.log(`Giocatore ${indiceGiocatori} disconnesso`);
-    connessioni[indiceGiocatori] = null;
-    //che giocatore si è disconnesso
-    socket.broadcast.emit('giocatore-connesso', indiceGiocatori);
-  })
-});*/
 
 //Login
 const checkLogin = (user, pass) => {
