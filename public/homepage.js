@@ -88,3 +88,12 @@ socket.on("fine partita", (data)=>{
     }
     window.location.href="./homepage.html"
 })
+
+/*function resizeCanvas(canvas) {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+};
+window.addEventListener('resize', function(){
+    resizeCanvas(primaGriglia);
+    resizeCanvas(secondaGriglia);
+})*/
