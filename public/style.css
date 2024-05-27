@@ -154,3 +154,18 @@ span.green {
   #div_spinner{
     margin: 40px;
   }
+
+  #grafica_turni{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+  #timer{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #turno{
+    padding-left: 20px;
+    padding-right: 20px;
+  }

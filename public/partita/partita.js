@@ -18,7 +18,7 @@ export const primaGriglia = (mio, ctx1) => {
                 const cellY = y*cellSize + 10;
                 ctx1.beginPath();
                 ctx1.arc(cellX + cellSize/2, cellY + cellSize/2, cellSize/ 4, 0, Math.PI*2);
-                ctx1.fillStyle = "red";
+                ctx1.fillStyle = "green";
                 ctx1.fill();
                 ctx1.closePath();
             }
@@ -41,7 +41,7 @@ export const primaGriglia = (mio, ctx1) => {
 export const caricaRisultato = (ctx2, x, y, state) =>{
     let color
     if (state){
-        color = "yellow"
+        color = "red"
         
     }else{
         color = "blue"
@@ -59,7 +59,7 @@ export const caricaRisultato = (ctx2, x, y, state) =>{
 export const visualizzaColpo = (ctx1, x, y, state) => {
     let color
     if (state){
-        color = "black"
+        color = "red"
         
     }else{
         color = "blue"
