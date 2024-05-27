@@ -113,7 +113,7 @@ span.green {
 .spinner {
     --size: 30px;
     --first: #005bba;
-    --second: #fed500;
+    --second: #ebb575;
     width: 50px;
     height: 50px;
     position: relative;
@@ -158,7 +158,7 @@ span.green {
   #grafica_turni{
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: row;
   }
   #timer{
@@ -166,6 +166,7 @@ span.green {
     padding-right: 20px;
   }
   #turno{
+
     padding-left: 20px;
     padding-right: 20px;
   }
