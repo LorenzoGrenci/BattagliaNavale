@@ -170,3 +170,12 @@ span.green {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  #fine_partita{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    padding-top: 50px;
+    text-align: center;
+  }

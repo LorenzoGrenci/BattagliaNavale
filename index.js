@@ -80,6 +80,11 @@ io.on("connection", (socket) => {
       io.to(socket.id).emit("partita già in corso")
     }
     console.log(`User joined room: ${partita}`);
+
+    
+  });
+  socket.on("timer",()=>{
+    io.to("partita").emit("disc_inattivita");
   });
   socket.on("colpo", (coordinate)=>{
     let indexNemico 
@@ -127,6 +132,9 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
 });
+
+
+
 
 //Login
 const checkLogin = (user, pass) => {

@@ -7,8 +7,7 @@ const div_timer = document.getElementById("timer");
 const div_turno = document.getElementById("turno");
 const finePartita = document.getElementById("fine_partita");
 import {primaGriglia, secondaGriglia, caricaRisultato, visualizzaColpo} from "./partita/partita.js"
- 
-const template =`<h2><strong>E'IL TUO TURNO!</strong></h2>`;
+let timer
 
 let canvas1 = document.getElementById("canvas1");
 let ctx1 = canvas1.getContext("2d");
@@ -28,6 +27,8 @@ function startCercaPartita(){
 
 const controllaColpo = (ciccio) =>{
     canvas2.addEventListener("click", (event) => {
+        clearInterval(timer);
+        div_timer.innerHTML=`<h2><strong>0 SEC</strong></h2>`;
         const rect = canvas2.getBoundingClientRect();
         const clickX = event.clientX-rect.left;
         const clickY = event.clientY-rect.top;
@@ -37,10 +38,9 @@ const controllaColpo = (ciccio) =>{
             console.log("Cliccato sulla cella: ", xx, yy);
             socket.emit("colpo", {x: xx , y: yy})
             ciccio = false
-            
-        }
+        };
     });
-}
+};
 
 socket.on("start game",(data)=>{
     primaGriglia(data.combinazione, ctx1)
@@ -50,17 +50,17 @@ socket.on("start game",(data)=>{
     modalità.classList.remove("d-flex")
     modalità.classList.add("d-none")
     console.log("fatto")
-})
+});
 
 socket.on("solo un giocatore connesso", ()=>{
-    console.log("1")
-    jannikSpinner.innerHTML=`<div class="spinner"></div>`
-})
+    console.log("1");
+    jannikSpinner.innerHTML=`<div class="spinner"></div>`;
+});
 
 socket.on("partita già in corso", ()=>{
-    console.log("2")
-    alert("server pieno")
-})
+    console.log("2");
+    alert("server pieno");
+});
 
 socket.on("start turn", ()=>{
     let ciccio = true;
@@ -70,33 +70,46 @@ socket.on("start turn", ()=>{
     controllaColpo(ciccio);
     let time=0;
     const maxTime=20;
-    const timer = setInterval(()=>{
+    timer = setInterval(()=>{
         if(time < maxTime){
             time += 1;
             div_timer.innerHTML = `<h2><strong>${time} SEC</strong></h2>`;
         }else{
-            clearInterval(timer);
+            console.log("timer piscio");
             div_timer.innerHTML = ``;
+            socket.emit("timer",);
         };
     }, 1000);// 1 secondo
 });
 
+socket.on("disc_inattivita",()=>{
+    paginaPartita.classList.remove('d-flex');
+    paginaPartita.classList.add('d-none');
+    finePartita.innerHTML=`
+    <h1><strong>UN GIOCATORE E' STATO DISCONNESSO PER INATTIVITA'</strong></h1>
+    <p><strong>VERRAI REINDIRIZZATO ALLA PAGINA PRINCIPALE</strong></p>`;
+    setTimeout(()=>{
+        window.location.href="./homepage.html";
+    },5000);
+
+});
+
 socket.on("hit", (data)=>{
     if (data.num===1){
-        visualizzaColpo(ctx1, data.x, data.y, true)
+        visualizzaColpo(ctx1, data.x, data.y, true);
     }else{
-        visualizzaColpo(ctx1, data.x, data.y, false)
+        visualizzaColpo(ctx1, data.x, data.y, false);
     }
-})
+});
 socket.on("risultato", (data)=>{
     if (data.num===1){
-        caricaRisultato(ctx2, data.x, data.y, true)
-        console.log("hai colpito la navicella")
+        caricaRisultato(ctx2, data.x, data.y, true);
+        console.log("hai colpito la navicella");
         div_turno.innerHTML=``;
         div_turno.innerHTML=`<h2><strong>TURNO DELL'AVVERSARIO!</strong></h2>`;
     }else{
-        caricaRisultato(ctx2, data.x, data.y, false)
-        console.log("non hai colpito niente")
+        caricaRisultato(ctx2, data.x, data.y, false);
+        console.log("non hai colpito niente");
         div_turno.innerHTML="";
         div_turno.innerHTML=`<h2><strong>TURNO DELL'AVVERSARIO!</strong></h2>`;
     }
@@ -104,29 +117,12 @@ socket.on("risultato", (data)=>{
 
 socket.on("fine partita", (data)=>{
     if (data === 1){
-        //alert("hai vinto")
-        function fineparza2(){
-            finePartita.innerHTML = (`<h1><strong>HAi VINTO!</strong></h1>`);
-        }
-        paginaPartita.classList.remove('d-flex');
-        paginaPartita.classList.add('d-none');
-        const timeOut1 = setTimeout(fineparza2, 5000);
-        clearTimeout=timeOut1;
-        
-        //finePartita.innerHTML = (`<h1><strong>HAi VINTO!</strong></h1>`);
+        alert("hai vinto");
     }else{
-        //alert("hai perso")
-        function fineparza1(){
-            finePartita.innerHTML = (`<h1><strong>HAi PERSO!</strong></h1>`);
-        }
-        paginaPartita.classList.remove('d-flex');
-        paginaPartita.classList.add('d-none');
-        const timeOut2 = setTimeout(fineparza1, 5000);
-        clearTimeout=timeOut2;
-        //finePartita.innerHTML = (`<h1><strong>HAi PERSO!</strong></h1>`);
+        alert("hai perso");
     }
-    //window.location.href="./homepage.html"
-})
+    window.location.href="./homepage.html";
+});
 
 /*function resizeCanvas(canvas) {
     canvas.width = canvas.parentElement.clientWidth;
