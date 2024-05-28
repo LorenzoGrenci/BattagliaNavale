@@ -5,6 +5,7 @@ const paginaPartita = document.getElementById("pagina_partita");
 const modalità = document.getElementById("btn_modalita");
 const div_timer = document.getElementById("timer");
 const div_turno = document.getElementById("turno");
+const finePartita = document.getElementById("fine_partita");
 import {primaGriglia, secondaGriglia, caricaRisultato, visualizzaColpo} from "./partita/partita.js"
  
 const template =`<h2><strong>E'IL TUO TURNO!</strong></h2>`;
@@ -103,11 +104,28 @@ socket.on("risultato", (data)=>{
 
 socket.on("fine partita", (data)=>{
     if (data === 1){
-        alert("hai vinto")
+        //alert("hai vinto")
+        function fineparza2(){
+            finePartita.innerHTML = (`<h1><strong>HAi VINTO!</strong></h1>`);
+        }
+        paginaPartita.classList.remove('d-flex');
+        paginaPartita.classList.add('d-none');
+        const timeOut1 = setTimeout(fineparza2, 5000);
+        clearTimeout=timeOut1;
+        
+        //finePartita.innerHTML = (`<h1><strong>HAi VINTO!</strong></h1>`);
     }else{
-        alert("hai perso")
+        //alert("hai perso")
+        function fineparza1(){
+            finePartita.innerHTML = (`<h1><strong>HAi PERSO!</strong></h1>`);
+        }
+        paginaPartita.classList.remove('d-flex');
+        paginaPartita.classList.add('d-none');
+        const timeOut2 = setTimeout(fineparza1, 5000);
+        clearTimeout=timeOut2;
+        //finePartita.innerHTML = (`<h1><strong>HAi PERSO!</strong></h1>`);
     }
-    window.location.href="./homepage.html"
+    //window.location.href="./homepage.html"
 })
 
 /*function resizeCanvas(canvas) {
