@@ -117,11 +117,27 @@ socket.on("risultato", (data)=>{
 
 socket.on("fine partita", (data)=>{
     if (data === 1){
-        alert("hai vinto");
+        //alert("hai vinto");
+        setInterval(()=>{
+            paginaPartita.classList.remove('d-flex');
+            paginaPartita.classList.add('d-none');
+            finePartita.innerHTML=`<h1><strong>HAI VINTO!</strong></h1>`;
+        },1000);
+        setInterval(()=>{
+            window.location.href="./homepage.html";
+        },5000);
     }else{
-        alert("hai perso");
-    }
-    window.location.href="./homepage.html";
+        //alert("hai perso");
+        setInterval(()=>{
+            paginaPartita.classList.remove('d-flex');
+            paginaPartita.classList.add('d-none');
+            finePartita.innerHTML=`<h1><strong>HAI PERSO!</strong></h1>`;
+        },1000);
+        setInterval(()=>{
+            window.location.href="./homepage.html";
+        },5000);
+    };
+    //window.location.href="./homepage.html";
 });
 
 /*function resizeCanvas(canvas) {
